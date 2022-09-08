@@ -42,7 +42,7 @@ char    *iter_dir(t_data data, int index)
     free(path);
     path = NULL;
     full = NULL;
-    s = ft_strdup(env[index]);
+    s = env[index];
     if (ft_strlen(s) > 0 && s[ft_strlen(s) - 1] == '/')
         full = ft_strjoin(s, data.cmd->exe->s);
     else if (s && data.cmd->exe->s)
@@ -51,7 +51,6 @@ char    *iter_dir(t_data data, int index)
         full = ft_strjoin(path, data.cmd->exe->s);
         free(path);
     }
-    free(s);
     freess(env);
     return (full);
 }
