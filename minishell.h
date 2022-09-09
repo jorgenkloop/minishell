@@ -51,11 +51,13 @@ char    **exp_env(char **arg, char **env, int len);
 char	**split_char(char **arg, int len, int i, int x);
 char    **edit_envp(char **envp, char *var, char *str);
 char    **lexer(char **envp, char *s);
+char    **rm_quote(char **arg, int i, int j, int k);
 
 char    *free_and_alloc(char *old, char *new, int flag);
 char 	*ft_strjoin_n(char const *s1, char const *s2);
 char 	*get_env(char *arg, char **env, int *pos);
 char    *iter_dir(t_data data, int index);
+char	*rm_whitespace(char *s, char c, int k, int i);
 
 int		find_len(char *arg, char s);
 int		find_ctr(char **arg);

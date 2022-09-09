@@ -123,6 +123,9 @@ int	main(int argc, char *argv[], char *envp[])
 		s = readline("input > ");
 		if (s)
 			add_history(s);
+		else
+			exit (1);
+		s = rm_whitespace(s, 0, 0, -1);
 		input = lexer(envp, s);
 		if (input == NULL)
 			break ;

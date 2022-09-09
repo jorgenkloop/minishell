@@ -74,5 +74,6 @@ char    **lexer(char **envp, char *s)
     ctr[1] = find_ctr(input);
     if (ctr[1] > 0)
         input = split_char(input, (ctr[1] * 2) + ctr[0], -1, 0);
+    input = rm_quote(input, -1, 0, -1);
     return (input);    
 }

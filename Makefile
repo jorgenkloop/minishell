@@ -12,7 +12,8 @@ SRCS = main.c	\
 		builtin3.c	\
 		exec_1.c	\
 		exec_2.c	\
-		get_here.c
+		get_here.c	\
+		rm_func.c
 
 NAME = minishell
 
