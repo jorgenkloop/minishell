@@ -63,7 +63,6 @@ void    exec_loop(t_data data)
     int     index;
 
     index = 0;
-    //printf("in exec loop. datacmdfull %s %s\n", data.cmd->full[0], data.cmd->full[1]);
     if (data.cmd->stout_redir != NULL)
     {
         if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
@@ -73,15 +72,14 @@ void    exec_loop(t_data data)
     s = exec_arg(data);
     execve(data.cmd->exe->s, s, data.envp);
     dir = iter_dir(data, index);
-    //printf("dir is %s\n", dir);
     while (dir)
     {
-        //printf("%s\n", dir);
         execve(dir, s, data.envp);
         free(dir);
         dir = NULL;
         dir = iter_dir(data, ++index);
     }
+    g_status = 127;
 }
 
 //the main forking function. child process is sent to func child_process, main process waits for a change in child process status
@@ -100,12 +98,12 @@ void    exec_fork(t_data data, int fd[2])
     else if (pid == 0)
     {
         child_process(data, fd);
-        exit(1);
+        exit(g_status);
     }
     else
     {
         waitpid(pid, &status, 0);
-        //printf("signal obtained\n");
+        g_status = status/256;
     }
 }
 

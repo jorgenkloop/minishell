@@ -52,6 +52,11 @@ static char *repl_env(char **env, char *var)
     name = NULL;
     while (env[++i] != NULL)
     {
+        if (ft_strlen(var) == 1 && !ft_strncmp(var, "?", 1))
+        {
+            name = ft_itoa(g_status);
+            return (name);
+        }
         if (ft_strncmp(env[i], var, ft_strlen(var)) == 0)
         {
             s = ft_strchr(env[i], '=') + 1;
