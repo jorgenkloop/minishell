@@ -27,22 +27,12 @@ char *ft_strjoin_n(char const *s1, char const *s2)
 
 void run_env(t_data data)
 {
-    //char    *s;
     int     i;
     int     fd;
 
+    if (data.cmd->args != NULL)
+        mini_perror("Please run without options or arguments\n", 1);
     i = -1;
-    //s = NULL;
-    // if (data.cmd->stout_redir != NULL)
-    //     fd = get_fd(data);
-    // else if (data.cmd->next != NULL)
-    // {
-    //     while (data.envp[++i] != NULL)
-    //         s = ft_strjoin_n(s, data.envp[i]);
-    //     exec_b(data, s);
-    //     return;
-    // }
-    // else
     fd = 1;
     while (data.envp[++i] != NULL)
         ft_putendl_fd(data.envp[i], fd);
@@ -81,14 +71,28 @@ void run_cd(t_cmd *command, char ***envp)
 {
     char    *s;
     char    *pwd;
-
-    s = command->args->s;
+    int     pos[2];
+    int     flag;
+    
+    flag = 0;
+    if (command->args == NULL)
+    {
+        pos[0] = 0;
+        pos[1] = 4;
+        s = get_env("$HOME", *envp, pos);
+        flag = 1;
+    }
+    else
+        s = command->args->s;
     pwd = getcwd(NULL, 0);
     *envp = edit_envp(*envp, "OLDPWD=", pwd);
-    chdir(s);
+    if (chdir(s) < 0)
+        mini_perror("No such file or directory\n", 1);
     free(pwd);
     pwd = getcwd(NULL, 0);
     *envp = edit_envp(*envp, "PWD=", pwd);
     free(pwd);
     pwd = NULL;
+    if (flag == 1)
+        free(s);
 }

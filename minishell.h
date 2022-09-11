@@ -68,6 +68,7 @@ int		get_here_doc(char *delim);
 
 size_t	sslen(char **ss);
 
+void	freecmd(t_cmd *cmd);
 void    freess(char **ss);
 void	getexe(t_cmd *cmd);
 void	getinredir(t_cmd *cmd);
@@ -82,4 +83,6 @@ void	check_cmd(t_data data);
 void    exec_loop(t_data data);
 void	printss(char **ss);
 void    child_process(t_data data, int fd[2]);
+void	mini_perror(char *err_str, int err_code);
+
 #endif

@@ -15,9 +15,8 @@ int get_fd(t_data data, int oldfd)
         s = data.cmd->stdin_redir->s;
     else if (data.cmd->stdin_redir == NULL && data.cmd->stout_redir == NULL)
         return (oldfd);
-    i = 0;
-    while (s[i] == '>' || s[i] == ' ' || s[i] == '<')
-        i++;
+    i = -1;
+    while (s[++i] == '>' || s[i] == ' ' || s[i] == '<');
     if (s[0] == '>' && s[1] == '>')
         fd = open(s + i, O_CREAT | O_WRONLY | O_APPEND, 0777);
     else if (s[0] == '>' && s[1] != '>')
@@ -26,8 +25,8 @@ int get_fd(t_data data, int oldfd)
         fd = open(s + 1, O_RDONLY);
     else if (s[0] == '<' && s[1] == '<')
         fd = get_here_doc(s + i);
-    else
-        fd = oldfd;
+    if (fd < 0)
+        mini_perror("Error when opening file\n", 2);
     return (fd);
 }
 
@@ -36,6 +35,8 @@ void run_pwd(t_data data)
     char    *pwd;
 
     pwd = getcwd(NULL, 0);
+    if (pwd == NULL)
+        mini_perror("Error getting current working directory\n", 1);
     ft_putendl_fd(pwd, data.cmd->outfile);
     free(pwd);
 }
@@ -89,26 +90,88 @@ int run_echo(t_data data, int fd, int i, int j)
     return (0);
 }
 
+// t_data    builtin(t_data data)
+// {
+//     t_data  aux;
+
+//     aux = data;
+//     while (aux.cmd)
+//     {
+//         if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "cd", 2)))
+//             run_cd(aux.cmd, &(aux.envp));
+//         else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "export", 6)))
+//             run_export(aux.cmd, &(aux.envp));
+//         else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "unset", 5)))
+//             run_unset(aux.cmd, &(aux.envp));
+//         else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "exit", 4)))
+//             exit(1);
+//         else
+//             check_cmd(aux);
+//         aux.cmd = aux.cmd->next;
+//        //printf("done loop\n");
+//     }
+//     //printf("exit loop\n");
+//     return (data);
+// }
+
+int check_redirect(t_data data)
+{
+    char    c;
+    int     i;
+    int     len;
+
+    i = -1;
+    while(data.cmd->full[++i] != NULL)
+    {
+        if (data.cmd->full[i][0] == '<' || data.cmd->full[i][0] == '>')
+        {
+            c = data.cmd->full[i][0];
+            len = ft_strlen(data.cmd->full[i]);
+            if ((len == 2 && data.cmd->full[i][1] == c) || len == 1)
+            {
+                mini_perror("Syntax err near unexpected token `newline\'\n", 2);
+                return (-1);
+            }
+        }
+    }
+    return (0);
+}
+
+void    run_exit(t_data data)
+{
+    char    *s;
+    int     status;
+
+    s = data.cmd->args;
+    if (s != NULL && s != NULL)
+        mini_perror("exit: too many arguments\n", 2);
+    if (s[0] >= 48 && s[0] <= 57)
+        exit(2);
+    status = ft_atoi(data.cmd->args->s);
+    exit(status);
+}
+
 t_data    builtin(t_data data)
 {
-    t_data  aux;
+    t_cmd   *temp;
+    int     check;
 
-    aux = data;
-    while (aux.cmd)
+    check = check_redirect(data);
+    while (data.cmd)
     {
-        if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "cd", 2)))
-            run_cd(aux.cmd, &(aux.envp));
-        else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "export", 6)))
-            run_export(aux.cmd, &(aux.envp));
-        else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "unset", 5)))
-            run_unset(aux.cmd, &(aux.envp));
-        else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "exit", 4)))
-            exit(1);
-        else
-            check_cmd(aux);
-        aux.cmd = aux.cmd->next;
-       //printf("done loop\n");
+        if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "cd", 2)) && check != -1)
+            run_cd(data.cmd, &(data.envp));
+        else if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "export", 6)) && check != -1)
+            run_export(data.cmd, &(data.envp));
+        else if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "unset", 5)) && check != -1)
+            run_unset(data.cmd, &(data.envp));
+        else if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "exit", 4)) && check != -1)
+            run_exit(data);
+        else if (check != -1)
+            check_cmd(data);
+        temp = data.cmd;
+        data.cmd = data.cmd->next;
+        freecmd(temp);
     }
-    //printf("exit loop\n");
     return (data);
 }
