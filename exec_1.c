@@ -82,12 +82,29 @@ void    exec_loop(t_data data)
     g_status = 127;
 }
 
+t_list *ret_free_list(t_list *list)
+{
+    t_list *temp;
+
+    temp = list;
+    list = list->next;
+    free(temp->s);
+    free(temp);
+    return (list);
+}
+
 //the main forking function. child process is sent to func child_process, main process waits for a change in child process status
 void    exec_fork(t_data data, int fd[2])
 {
+    t_list  *temp;
     int pid;
     int status;
 
+    while (data.cmd->stdin_redir && data.cmd->stdin_redir->next)
+    {
+        temp = data.cmd->stdin_redir;
+        data.cmd->stdin_redir = ret_free_list(temp);
+    }
     pid = fork();
     if (pid < 0)
     {
@@ -110,24 +127,28 @@ void    exec_fork(t_data data, int fd[2])
 //this function is called for non builtins and if a pipe is detected
 void   check_cmd(t_data data)
 {
+    t_list  *out;
     int fd[2];
 
-    if (pipe(fd) < 0)
-        return;
-    //printf("\t\t\t\tcommand is %s and infile is %d outfile is %d\n", data.cmd->exe->s, data.cmd->infile, data.cmd->outfile);
-    if (data.cmd->exe->s != NULL)
-        exec_fork(data, fd);
-    close(fd[1]);
-    if (data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
+    while (1)
     {
-        //printf("in the input pipe\n");
-        data.cmd->next->infile = fd[0];
+        out = data.cmd->stout_redir;
+        if (pipe(fd) < 0)
+            return;
+        if (data.cmd->exe->s != NULL)
+            exec_fork(data, fd);
+        close(fd[1]);
+        if (data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
+            data.cmd->next->infile = fd[0];
+        else 
+            close(fd[0]);
+        if (data.cmd->infile > 2)
+            close(data.cmd->infile);
+        if (data.cmd->outfile > 2)
+            close(data.cmd->outfile);
+        if (out == NULL || (out != NULL && out->next == NULL))
+            break ;
+        else if (out != NULL && out->next != NULL)
+            data.cmd->stout_redir = ret_free_list(out);
     }
-    else 
-        close(fd[0]);
-    if (data.cmd->infile > 2)
-        close(data.cmd->infile);
-    if (data.cmd->outfile > 2)
-        close(data.cmd->outfile);
-    //printf("done check_cmd\n");
 }
