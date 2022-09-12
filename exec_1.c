@@ -110,13 +110,10 @@ void    exec_fork(t_data data, int fd[2])
     {
         close(fd[0]);
         close(fd[1]);
-        return;
+        return (mini_perror("Error with fork\n", 1, 0));
     }
     else if (pid == 0)
-    {
         child_process(data, fd);
-        exit(g_status);
-    }
     else
     {
         waitpid(pid, &status, 0);
@@ -134,7 +131,7 @@ void   check_cmd(t_data data)
     {
         out = data.cmd->stout_redir;
         if (pipe(fd) < 0)
-            return;
+            return (mini_perror("Error with pipe\n", 1, 0));
         if (data.cmd->exe->s != NULL)
             exec_fork(data, fd);
         close(fd[1]);

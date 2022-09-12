@@ -94,4 +94,5 @@ void    child_process(t_data data, int fd[2])
     child_redirect(data, fd);
     close(fd[0]);
     child_builtin(data);
+    exit(g_status);
 }

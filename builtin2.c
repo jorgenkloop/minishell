@@ -107,10 +107,7 @@ void    run_exit(t_data data)
 
     s = data.cmd->args;
     if (s != NULL && s->next != NULL)
-    {
-        mini_perror("exit: too many arguments\n", 2, 0);
-        return ;
-    }
+        return (mini_perror("exit: too many arguments\n", 2, 0));
     if (s->s[0] >= 48 && s->s[0] <= 57)
         exit(2);
     status = ft_atoi(data.cmd->args->s);
