@@ -82,17 +82,6 @@ void    exec_loop(t_data data)
     g_status = 127;
 }
 
-t_list *ret_free_list(t_list *list)
-{
-    t_list *temp;
-
-    temp = list;
-    list = list->next;
-    free(temp->s);
-    free(temp);
-    return (list);
-}
-
 //the main forking function. child process is sent to func child_process, main process waits for a change in child process status
 void    exec_fork(t_data data, int fd[2])
 {

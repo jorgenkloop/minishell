@@ -46,6 +46,8 @@ t_data	executor(t_data data);
 
 t_cmd	*parse(char **ss);
 
+t_list *ret_free_list(t_list *list);
+
 char    **dup_matrix(char **old);
 char    **exp_env(char **arg, char **env, int len);
 char	**split_char(char **arg, int len, int i, int x);

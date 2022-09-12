@@ -51,6 +51,17 @@ void	readcmd(t_cmd *cmd)
 	}
 }
 
+t_list *ret_free_list(t_list *list)
+{
+    t_list *temp;
+
+    temp = list;
+    list = list->next;
+    free(temp->s);
+    free(temp);
+    return (list);
+}
+
 void	ft_freelist(t_list *list)
 {
 	t_list	*temp;
