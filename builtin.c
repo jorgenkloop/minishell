@@ -1,42 +1,16 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-int get_fd(t_data data, int oldfd)
-{
-    char    *s;
-    int     i;
-    int     fd;
-
-    if (data.cmd->stdin_redir != NULL && data.cmd->stout_redir != NULL && oldfd < 1)
-        s = data.cmd->stdin_redir->s;
-    else if (data.cmd->stout_redir != NULL)
-        s = data.cmd->stout_redir->s;
-    else if (data.cmd->stdin_redir != NULL)
-        s = data.cmd->stdin_redir->s;
-    else if (data.cmd->stdin_redir == NULL && data.cmd->stout_redir == NULL)
-        return (oldfd);
-    i = -1;
-    while (s[++i] == '>' || s[i] == ' ' || s[i] == '<');
-    if (s[0] == '>' && s[1] == '>')
-        fd = open(s + i, O_CREAT | O_WRONLY | O_APPEND, 0777);
-    else if (s[0] == '>' && s[1] != '>')
-        fd = open(s + i, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-    else if (s[0] == '<' && s[1] != '<')
-        fd = open(s + 1, O_RDONLY);
-    else if (s[0] == '<' && s[1] == '<')
-        fd = get_here_doc(s + i);
-    if (fd < 0)
-        mini_perror("Error when opening file\n", 2);
-    return (fd);
-}
-
 void run_pwd(t_data data)
 {
     char    *pwd;
 
     pwd = getcwd(NULL, 0);
     if (pwd == NULL)
-        mini_perror("Error getting current working directory\n", 1);
+    {
+        mini_perror("Error getting current working directory\n", 1, 1);
+        return ;
+    }
     ft_putendl_fd(pwd, data.cmd->outfile);
     free(pwd);
 }
@@ -82,11 +56,7 @@ int run_echo(t_data data, int fd, int i, int j)
         arg = arg->next;
     }
     if (data.cmd->stout_redir != NULL)
-    {
-        //printf("closing fd\n");
         close(fd);
-    }
-    //printf("done echo\n");
     return (0);
 }
 
@@ -127,28 +97,14 @@ int check_redirect(t_data data)
         {
             c = data.cmd->full[i][0];
             len = ft_strlen(data.cmd->full[i]);
-            if ((len == 2 && data.cmd->full[i][1] == c) || len == 1)
+            if (!data.cmd->full[i+1] && ((len == 2 && data.cmd->full[i][1] == c) || len == 1))
             {
-                mini_perror("Syntax err near unexpected token `newline\'\n", 2);
+                mini_perror("Syntax err near unexpected token `newline\'\n", 2, 0);
                 return (-1);
             }
         }
     }
     return (0);
-}
-
-void    run_exit(t_data data)
-{
-    char    *s;
-    int     status;
-
-    s = data.cmd->args;
-    if (s != NULL && s != NULL)
-        mini_perror("exit: too many arguments\n", 2);
-    if (s[0] >= 48 && s[0] <= 57)
-        exit(2);
-    status = ft_atoi(data.cmd->args->s);
-    exit(status);
 }
 
 t_data    builtin(t_data data)

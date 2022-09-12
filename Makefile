@@ -6,6 +6,7 @@ SRCS = main.c	\
 		parser.c	\
 		parser2.c	\
 		utils.c		\
+		utils2.c	\
 		builtin.c	\
 		executor.c	\
 		builtin2.c	\

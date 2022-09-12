@@ -1,6 +1,35 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
+int get_fd(t_data data, int oldfd)
+{
+    char    *s;
+    int     i;
+    int     fd;
+
+    if (data.cmd->stdin_redir != NULL && data.cmd->stout_redir != NULL && oldfd < 1)
+        s = data.cmd->stdin_redir->s;
+    else if (data.cmd->stout_redir != NULL)
+        s = data.cmd->stout_redir->s;
+    else if (data.cmd->stdin_redir != NULL)
+        s = data.cmd->stdin_redir->s;
+    else if (data.cmd->stdin_redir == NULL && data.cmd->stout_redir == NULL)
+        return (oldfd);
+    i = -1;
+    while (s[++i] == '>' || s[i] == ' ' || s[i] == '<');
+    if (s[0] == '>' && s[1] == '>')
+        fd = open(s + i, O_CREAT | O_WRONLY | O_APPEND, 0777);
+    else if (s[0] == '>' && s[1] != '>')
+        fd = open(s + i, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+    else if (s[0] == '<' && s[1] != '<')
+        fd = open(s + 1, O_RDONLY);
+    else if (s[0] == '<' && s[1] == '<')
+        fd = get_here_doc(s + i);
+    if (fd < 0)
+        mini_perror("Error when opening file\n", 2, 1);
+    return (fd);
+}
+
 int    is_builtin(t_data data)
 {
     t_cmd  *cmd;
@@ -27,30 +56,23 @@ static void child_redirect(t_data data, int fd[2])
 {
     if (data.cmd->infile != STDIN_FILENO || data.cmd->stdin_redir != NULL)
     {
-        //printf("in the infile dup\n");
         data.cmd->infile = get_fd(data, data.cmd->infile);
-        //printf("infile is %d\n", data.cmd->infile);
         if (dup2(data.cmd->infile, STDIN_FILENO) < 0)
-            return;
+            mini_perror("Error with dup2 command\n", 126, 1);
         close(data.cmd->infile);
     }
     if (data.cmd->stout_redir != NULL)
     {
-        //printf("check redirect1\n");
         data.cmd->outfile = get_fd(data, data.cmd->outfile);
-        //printf("outfile is %d\n", data.cmd->outfile);
         if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
-           return;
-        //close(data.cmd->outfile);
+            mini_perror("Error with dup2 command\n", 126, 1);
     }
     else if (data.cmd->next != NULL)
     {
-        //printf("check redirect2 fd[1] is %d\n", fd[1]);
         if (dup2(fd[1], STDOUT_FILENO) < 0)
-            return;
+            mini_perror("Error with dup2 command\n", 126, 1);
     }
     close(fd[1]);
-    //printf("done redirect\n");
 }
 
 static void child_builtin(t_data data)

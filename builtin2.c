@@ -31,7 +31,10 @@ void run_env(t_data data)
     int     fd;
 
     if (data.cmd->args != NULL)
-        mini_perror("Please run without options or arguments\n", 1);
+    {
+        mini_perror("Please run without options or arguments\n", 1, 1);
+        return ;
+    }
     i = -1;
     fd = 1;
     while (data.envp[++i] != NULL)
@@ -87,7 +90,7 @@ void run_cd(t_cmd *command, char ***envp)
     pwd = getcwd(NULL, 0);
     *envp = edit_envp(*envp, "OLDPWD=", pwd);
     if (chdir(s) < 0)
-        mini_perror("No such file or directory\n", 1);
+        mini_perror("No such file or directory\n", 1, 0);
     free(pwd);
     pwd = getcwd(NULL, 0);
     *envp = edit_envp(*envp, "PWD=", pwd);
@@ -95,4 +98,21 @@ void run_cd(t_cmd *command, char ***envp)
     pwd = NULL;
     if (flag == 1)
         free(s);
+}
+
+void    run_exit(t_data data)
+{
+    t_list    *s;
+    int     status;
+
+    s = data.cmd->args;
+    if (s != NULL && s->next != NULL)
+    {
+        mini_perror("exit: too many arguments\n", 2, 0);
+        return ;
+    }
+    if (s->s[0] >= 48 && s->s[0] <= 57)
+        exit(2);
+    status = ft_atoi(data.cmd->args->s);
+    exit(status);
 }

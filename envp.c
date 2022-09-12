@@ -1,19 +1,6 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-//called by check_dollar to return the end position
-static int  find_end(char *arg, int i)
-{
-    while (arg[++i] != '\0')
-    {
-        if (arg[i] == ' ' || arg[i] == '/')
-            return (i);
-        else if (arg[i] == '\"')
-            return (i);
-    }
-    return (i);
-}
-
 //called by exp_env, checks for $ sign and returns the position of the start and end
 static int  *check_dollar(char *arg, int *pos)
 {

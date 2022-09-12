@@ -58,6 +58,7 @@ char 	*ft_strjoin_n(char const *s1, char const *s2);
 char 	*get_env(char *arg, char **env, int *pos);
 char    *iter_dir(t_data data, int index);
 char	*rm_whitespace(char *s, char c, int k, int i);
+char	*get_readline(void);
 
 int		find_len(char *arg, char s);
 int		find_ctr(char **arg);
@@ -65,6 +66,7 @@ int		get_fd(t_data data, int oldfd);
 int		run_echo(t_data data, int fd, int i, int j);
 int		is_builtin(t_data data);
 int		get_here_doc(char *delim);
+int		find_end(char *arg, int i);
 
 size_t	sslen(char **ss);
 
@@ -75,6 +77,7 @@ void	getinredir(t_cmd *cmd);
 void	getoutredir(t_cmd *cmd);
 void	run_pwd(t_data data);
 void 	run_env(t_data data);
+void    run_exit(t_data data);
 void 	run_cd(t_cmd *command, char ***envp);
 void    run_export(t_cmd *command, char ***envp);
 void    run_unset(t_cmd *command, char ***envp);
@@ -83,6 +86,7 @@ void	check_cmd(t_data data);
 void    exec_loop(t_data data);
 void	printss(char **ss);
 void    child_process(t_data data, int fd[2]);
-void	mini_perror(char *err_str, int err_code);
+void	mini_perror(char *err_str, int err_code, int flag);
+void	siginthandler(int sig);
 
 #endif
