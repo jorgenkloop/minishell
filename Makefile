@@ -18,7 +18,7 @@ SRCS = main.c	\
 
 NAME = minishell
 
-FLAGS = -Wall -Wextra -lreadline -fsanitize=leak
+FLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=leak
 CC = gcc
 
 OBJS = $(SRCS:.c=.o)
