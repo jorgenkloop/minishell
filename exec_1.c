@@ -51,7 +51,7 @@ char    *iter_dir(t_data data, int index)
         full = ft_strjoin(path, data.cmd->exe->s);
         free(path);
     }
-    freess(env);
+    //freess(env);
     return (full);
 }
 

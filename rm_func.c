@@ -40,7 +40,7 @@ char	*rm_whitespace(char *s, char c, int k, int i)
 {
 	char *new;
 
-	new = (char *)ft_calloc(ft_strlen(s), sizeof(char));
+	new = (char *)ft_calloc(ft_strlen(s) + 1, sizeof(char));
 	while (s[++i] != '\0')
 	{
 		if (s[i] == '\'' || s[i] == '\"')

@@ -35,7 +35,7 @@ static char	*readline_check(char *s, int *flag)
 	int		len;
 
 	len = ft_strlen(s);
-	if (s[len - 1] == '|')
+	if (len != 0 && s[len - 1] == '|')
 	{
 		s2 = readline("> ");
 		s2 = rm_whitespace(s2, 0, 0, -1);
