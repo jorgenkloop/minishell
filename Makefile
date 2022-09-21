@@ -18,7 +18,7 @@ SRCS = main.c	\
 
 NAME = minishell
 
-FLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=leak
+FLAGS = -Wall -Wextra -Werror -lreadline -g -fsanitize=address
 CC = gcc
 
 OBJS = $(SRCS:.c=.o)
@@ -27,7 +27,7 @@ all: $(NAME)
 
 $(NAME): libft $(OBJS)
 	@make -C libft
-	@$(CC) $(OBJS) libft/libft.a -lreadline -fsanitize=leak -o $(NAME)
+	@$(CC) $(OBJS) libft/libft.a -lreadline -g -fsanitize=address -o $(NAME)
 
 %.o : %.c
 	@$(CC) $(FLAGS) -c $^ -o $@

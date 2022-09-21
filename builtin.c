@@ -13,6 +13,7 @@ void run_pwd(t_data data)
     }
     ft_putendl_fd(pwd, data.cmd->outfile);
     free(pwd);
+    g_status = 0;
 }
 
 static int  option_check(t_list *args)
@@ -22,6 +23,8 @@ static int  option_check(t_list *args)
 
     i = 0;
     arg = args;
+    if (arg == NULL)
+        return (0);
     while(arg->s[0] == '\0')
     {
         arg = arg->next;
@@ -38,7 +41,7 @@ int run_echo(t_data data, int fd, int i, int j)
     t_list  *arg;
 
     arg = data.cmd->args;
-    if (arg == NULL || (arg->s[0] == '\0' && arg->next == NULL))
+    if (arg == NULL || arg->s[0] == '\0')
         return (write(fd, "\n", 1));
     i = option_check(arg);
     while (arg != NULL)
@@ -116,7 +119,7 @@ t_data    builtin(t_data data)
     while (data.cmd)
     {
         if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "cd", 2)) && check != -1)
-            run_cd(data.cmd, &(data.envp));
+            run_cd(data.cmd, &(data.envp), 0);
         else if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "export", 6)) && check != -1)
             run_export(data.cmd, &(data.envp));
         else if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "unset", 5)) && check != -1)

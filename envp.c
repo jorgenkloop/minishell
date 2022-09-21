@@ -113,7 +113,7 @@ static char *ft_realloc_char(char *old, char *s, int x, int len)
     return (new);
 }
 
-//called by main. expands the env variable if it exists otherwise null is returned
+//called by lexer. expands the env variable if it exists otherwise null is returned
 char    **exp_env(char **arg, char **env, int len)
 {
     char    *var;

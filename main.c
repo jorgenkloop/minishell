@@ -171,12 +171,8 @@ int	main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			break ;
 		data.cmd = parse(input);
-		//I will start here.
 		data = builtin(data);
-		//data = executor(data);
-		//readcmd(data.cmd);
 		freess(input);
-		//freecmd(data.cmd);
 		input = NULL;
 		data.cmd = NULL;
 	}

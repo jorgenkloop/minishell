@@ -39,14 +39,14 @@ static char **resize_insert(char *s, char **envp)
     i = 0;
     len = -1;
     while (envp[++len] != NULL);
-    new = (char **)ft_calloc(len + 1, sizeof(char *));
+    new = (char **)ft_calloc(len + 2, sizeof(char *));
     while (envp[i] != NULL)
     {
         new[i] = ft_strdup(envp[i]);
         i++;
     }
     new[i] = ft_strdup(s);
-    //new[i + 1] = 0;
+    new[i + 1] = 0;
     freess(envp);
     envp = NULL;
     return (new);
@@ -88,11 +88,11 @@ void    run_unset(t_cmd *command, char ***envp)
     while (arg != NULL)
     {
         check = check_env(*envp, arg->s, 1);
-        //printf("check %d\n", check);
         if (check >= 0)
             *envp = resize_remove(*envp, check);
         arg = arg->next;
     }
+    g_status = 0;
 }
 
 void    run_export(t_cmd *command, char ***envp)
@@ -112,6 +112,7 @@ void    run_export(t_cmd *command, char ***envp)
             *envp = resize_insert(arg->s, *envp);
         arg = arg->next;
     }
+    g_status = 0;
 }
 
 // void    run_export(t_data data)

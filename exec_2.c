@@ -82,7 +82,7 @@ static void child_builtin(t_data data)
     if (is_builtin(data) == 0)
         exec_loop(data);
     else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "echo", 4)))
-        run_echo(data, data.cmd->outfile, 0, -1);
+        g_status = run_echo(data, data.cmd->outfile, 0, -1);
     else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "pwd", 3)))
         run_pwd(data);
     else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "env", 3)))

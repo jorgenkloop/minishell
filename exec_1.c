@@ -27,17 +27,18 @@ char    **exec_arg(t_data data)
 }
 
 //gets the path variable and splits them by ':', returns the dir based on the index
-char    *iter_dir(t_data data, int index)
+char    *iter_dir(t_data data, int index, char *s)
 {
     char    *path;
     char    **env;
-    char    *s;
     char    *full;
     int     pos[2];
 
     pos[0] = 0;
     pos[1] = 4;
     path = get_env("$PATH", data.envp, pos);
+    if (path == NULL)
+        mini_perror("Error accessing path variable\n", 1, 1);
     env = ft_split(path, ':');
     free(path);
     path = NULL;
@@ -51,7 +52,7 @@ char    *iter_dir(t_data data, int index)
         full = ft_strjoin(path, data.cmd->exe->s);
         free(path);
     }
-    //freess(env);
+    freess(env);
     return (full);
 }
 
@@ -60,9 +61,11 @@ void    exec_loop(t_data data)
 {
     char    *dir;
     char    **s;
+    char    *i;
     int     index;
 
     index = 0;
+    i = NULL;
     if (data.cmd->stout_redir != NULL)
     {
         if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
@@ -71,16 +74,16 @@ void    exec_loop(t_data data)
     }
     s = exec_arg(data);
     execve(data.cmd->exe->s, s, data.envp);
-    dir = iter_dir(data, index);
+    dir = iter_dir(data, index, i);
     while (dir)
     {
         execve(dir, s, data.envp);
         free(dir);
         dir = NULL;
-        dir = iter_dir(data, ++index);
+        dir = iter_dir(data, ++index, i);
     }
     if (g_status != 130)
-        g_status = 127;
+       g_status = 127;
 }
 
 //the main forking function. child process is sent to func child_process, main process waits for a change in child process status
@@ -109,7 +112,7 @@ void    exec_fork(t_data data, int fd[2])
         waitpid(pid, &status, 0);
         g_status = status/256;
         if (g_status == 127)
-            mini_perror("Error command not found\n", 127, 0);
+           mini_perror("Error command not found\n", 127, 0);
     }
 }
 

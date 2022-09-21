@@ -39,6 +39,7 @@ void run_env(t_data data)
     fd = 1;
     while (data.envp[++i] != NULL)
         ft_putendl_fd(data.envp[i], fd);
+    g_status = 0;
 }
 
 char    **edit_envp(char **envp, char *var, char *str)
@@ -70,15 +71,13 @@ char    **edit_envp(char **envp, char *var, char *str)
     return (envp);
 }
 
-void run_cd(t_cmd *command, char ***envp)
+void run_cd(t_cmd *c, char ***envp, int flag)
 {
     char    *s;
     char    *pwd;
     int     pos[2];
-    int     flag;
     
-    flag = 0;
-    if (command->args == NULL)
+    if (!c->args || (c->args && !ft_strncmp(c->args->s, "~", 1)))
     {
         pos[0] = 0;
         pos[1] = 4;
@@ -86,7 +85,7 @@ void run_cd(t_cmd *command, char ***envp)
         flag = 1;
     }
     else
-        s = command->args->s;
+        s = c->args->s;
     pwd = getcwd(NULL, 0);
     *envp = edit_envp(*envp, "OLDPWD=", pwd);
     if (chdir(s) < 0)
@@ -102,14 +101,16 @@ void run_cd(t_cmd *command, char ***envp)
 
 void    run_exit(t_data data)
 {
-    t_list    *s;
+    t_cmd    *s;
     int     status;
 
-    s = data.cmd->args;
-    if (s != NULL && s->next != NULL)
+    s = data.cmd;
+    if (s->args == NULL)
+        exit(1);
+    if (s->args != NULL && s->args->next != NULL)
         return (mini_perror("exit: too many arguments\n", 2, 0));
-    if (s->s[0] >= 48 && s->s[0] <= 57)
+    if (s->args && s->args->s[0] < 48 && s->args->s[0] > 57)
         exit(2);
-    status = ft_atoi(data.cmd->args->s);
+    status = ft_atoi(s->args->s);
     exit(status);
 }

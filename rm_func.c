@@ -16,7 +16,7 @@ char    **rm_quote(char **arg, int i, int j, int k)
         if (arg[i][0] != '\'' && arg[i][0] != '\"')
             continue ;
         c = arg[i][0];
-        new = (char *)malloc(sizeof(char) * (ft_strlen(arg[i]) - 2));
+        new = (char *)malloc(sizeof(char) * (ft_strlen(arg[i]) - 1));
         while (arg[i][++j] != '\0')
         {
             if (arg[i][j] == c)
@@ -40,7 +40,7 @@ char	*rm_whitespace(char *s, char c, int k, int i)
 {
 	char *new;
 
-	new = (char *)ft_calloc(ft_strlen(s) + 1, sizeof(char));
+	new = (char *)ft_calloc(ft_strlen(s) + 2, sizeof(char));
 	while (s[++i] != '\0')
 	{
 		if (s[i] == '\'' || s[i] == '\"')

@@ -58,7 +58,7 @@ char    **rm_quote(char **arg, int i, int j, int k);
 char    *free_and_alloc(char *old, char *new, int flag);
 char 	*ft_strjoin_n(char const *s1, char const *s2);
 char 	*get_env(char *arg, char **env, int *pos);
-char    *iter_dir(t_data data, int index);
+char    *iter_dir(t_data data, int index, char *s);
 char	*rm_whitespace(char *s, char c, int k, int i);
 char	*get_readline(void);
 
@@ -80,7 +80,7 @@ void	getoutredir(t_cmd *cmd);
 void	run_pwd(t_data data);
 void 	run_env(t_data data);
 void    run_exit(t_data data);
-void 	run_cd(t_cmd *command, char ***envp);
+void 	run_cd(t_cmd *command, char ***envp, int flag);
 void    run_export(t_cmd *command, char ***envp);
 void    run_unset(t_cmd *command, char ***envp);
 void    exec_b(t_data data, char *s);
