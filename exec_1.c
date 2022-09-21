@@ -82,8 +82,8 @@ void    exec_loop(t_data data)
         dir = NULL;
         dir = iter_dir(data, ++index, i);
     }
-    if (g_status != 130)
-       g_status = 127;
+    if (data.cmd->exe->s[0] != '\0')
+        g_status = 127;
 }
 
 //the main forking function. child process is sent to func child_process, main process waits for a change in child process status
@@ -110,7 +110,9 @@ void    exec_fork(t_data data, int fd[2])
     else
     {
         waitpid(pid, &status, 0);
-        g_status = status/256;
+        //printf("status is %d\n", WEXITSTATUS(status));
+        if (status >= 256 || status == 0)
+            g_status = status/256;
         if (g_status == 127)
            mini_perror("Error command not found\n", 127, 0);
     }
