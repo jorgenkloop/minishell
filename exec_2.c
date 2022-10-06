@@ -77,8 +77,6 @@ static void child_redirect(t_data data, int fd[2])
 
 static void child_builtin(t_data data)
 {
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
     if (is_builtin(data) == 0)
         exec_loop(data);
     else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "echo", 4)))
