@@ -87,11 +87,9 @@ void    exec_loop(t_data data)
 }
 
 //the main forking function. child process is sent to func child_process, main process waits for a change in child process status
-void    exec_fork(t_data data, int fd[2])
+void    exec_fork(t_data data, int fd[2], int pid, int status)
 {
     t_list  *temp;
-    int pid;
-    int status;
 
     while (data.cmd->stdin_redir && data.cmd->stdin_redir->next)
     {
@@ -110,10 +108,9 @@ void    exec_fork(t_data data, int fd[2])
     else
     {
         waitpid(pid, &status, 0);
-        //printf("status is %d\n", WEXITSTATUS(status));
         if (status >= 256 || status == 0)
             g_status = status/256;
-        if (g_status == 127)
+        if (g_status == 127 && data.cmd->exe->s[0] != '\0')
            mini_perror("Error command not found\n", 127, 0);
     }
 }
@@ -130,7 +127,7 @@ void   check_cmd(t_data data)
         if (pipe(fd) < 0)
             return (mini_perror("Error with pipe\n", 1, 0));
         if (data.cmd->exe->s != NULL)
-            exec_fork(data, fd);
+            exec_fork(data, fd, 0, 0);
         close(fd[1]);
         if (data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
             data.cmd->next->infile = fd[0];
