@@ -82,7 +82,7 @@ void    exec_loop(t_data data)
         dir = NULL;
         dir = iter_dir(data, ++index, i);
     }
-    if (g_status != 130)
+    if (data.cmd->exe->s[0] != '\0')
        g_status = 127;
 }
 
