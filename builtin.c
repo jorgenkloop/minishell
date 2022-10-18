@@ -30,8 +30,10 @@ static int  option_check(t_list *args)
         arg = arg->next;
         i++;
     }
-    if (arg != NULL && arg->s[0] == '-' && arg->s[1] == 'n')
+    if (arg != NULL && arg->s[0] == '-' && arg->s[1] == 'n' && (arg->next))
         return (i + 1);
+    else if (arg != NULL && arg->s[0] == '-' && arg->s[1] == 'n' && !(arg->next))
+        return (-1);
     else
         return (0);
 }
@@ -44,7 +46,7 @@ int run_echo(t_data data, int fd, int i, int j)
     if (arg == NULL || arg->s[0] == '\0')
         return (write(fd, "\n", 1));
     i = option_check(arg);
-    while (arg != NULL)
+    while (arg != NULL && i != -1)
     {
         if (i > 0)
             while (++j < i)
