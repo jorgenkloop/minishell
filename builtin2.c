@@ -30,8 +30,9 @@ void run_env(t_data data)
     int     i;
     int     fd;
 
-    if (data.cmd->args != NULL)
+    if (data.cmd->args != NULL && data.cmd->args->s[0] != '\0')
     {
+        printf("-%s-\n", data.cmd->args->s);
         mini_perror("Please run without options or arguments\n", 1, 1);
         return ;
     }
