@@ -65,30 +65,6 @@ int run_echo(t_data data, int fd, int i, int j)
     return (0);
 }
 
-// t_data    builtin(t_data data)
-// {
-//     t_data  aux;
-
-//     aux = data;
-//     while (aux.cmd)
-//     {
-//         if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "cd", 2)))
-//             run_cd(aux.cmd, &(aux.envp));
-//         else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "export", 6)))
-//             run_export(aux.cmd, &(aux.envp));
-//         else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "unset", 5)))
-//             run_unset(aux.cmd, &(aux.envp));
-//         else if (aux.cmd->next == NULL && !(ft_strncmp(aux.cmd->exe->s, "exit", 4)))
-//             exit(1);
-//         else
-//             check_cmd(aux);
-//         aux.cmd = aux.cmd->next;
-//        //printf("done loop\n");
-//     }
-//     //printf("exit loop\n");
-//     return (data);
-// }
-
 int check_redirect(t_data data)
 {
     char    c;

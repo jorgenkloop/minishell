@@ -114,22 +114,3 @@ void    run_export(t_cmd *command, char ***envp)
     }
     g_status = 0;
 }
-
-// void    run_export(t_data data)
-// {
-//     t_list  *arg;
-//     int     check;
-
-//     arg = data.cmd->args;
-//     while (arg != NULL)
-//     {
-//         check = check_env(data.envp, arg->s, 0);
-//         if (check == -1)
-//             continue ;
-//         else if (check >= 0)
-//             data.envp = edit_envp(data.envp, arg->s, "");
-//         else if (check == -2)
-//             data.envp = resize_insert(arg->s, data.envp);
-//         arg = arg->next;
-//     }
-// }

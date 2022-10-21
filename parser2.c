@@ -51,9 +51,7 @@ void	getoutredir(t_cmd *cmd)
 		if(!ft_strncmp(">", str, 1) && nextstr != 0)
 		{
 			joinedstr = ft_strjoin(str, nextstr);
-			//printf("joined str for getoutredir = %s\n", joinedstr);
 			addlist(&cmd->stout_redir, joinedstr);
-			//printf("after joined str for getoutredir = %s\n", &cmd->stout_redir);
 			free(joinedstr);
 			i = i + 2; 
 		}
@@ -77,12 +75,7 @@ void	getinredir(t_cmd *cmd)
 		if(!ft_strncmp("<", str, 1) && nextstr != 0)
 		{
 			joinedstr = ft_strjoin(str, nextstr);
-			//printf("joined str for getinredir = %s\n", joinedstr);
 			addlist(&cmd->stdin_redir, joinedstr);
-			//str = ft_strdup(joinedstr);
-			//addlist(&cmd->stdin_redir, str);
-			//free(str);
-			//printf("after joined str for getoutredir = %s\n", &cmd->stdin_redir);
 			free(joinedstr);
 			i = i + 2; 
 		}
