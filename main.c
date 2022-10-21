@@ -3,58 +3,6 @@
 
 int g_status;
 
-<<<<<<< HEAD
-=======
-//Rinor.s comment
-void	ft_printlist(t_list *list)
-{
-	t_list *ptr = list;
-	while (ptr)
-	{
-		printf("%s\n", ptr->s);
-		ptr = ptr->next;
-	}
-}
-
-void	printss(char **ss)
-{
-	char	**ptr;
-
-	ptr = ss;
-	while(*ptr != 0)
-	{
-		printf("%s\n", *ptr);
-		ptr++;
-	}
-	//printf("\n");
-}
-
->>>>>>> cc40cb64d27428721ef522ae811f61789416c949
-void	readcmd(t_cmd *cmd)
-{
-	
-	while (cmd !=0)
-	{
-		printf("\n==READING FROM NODE==\n");
-		printf("=full=: \n");
-		if (cmd->full !=0)
-			printss(cmd->full);
-		printf("=exe=: \n");
-		if (cmd->exe != 0)
-			ft_printlist(cmd->exe);
-		printf("=args=: \n");
-		if (cmd->args != 0)
-			ft_printlist(cmd->args);
-		printf("=stdin_redir=: \n");
-		if (cmd->stdin_redir != 0)
-			ft_printlist(cmd->stdin_redir);
-		printf("=stout_redir=: \n");		
-		if (cmd->stout_redir != 0)
-			ft_printlist(cmd->stout_redir);
-		cmd = cmd->next;
-	}
-}
-
 t_list *ret_free_list(t_list *list)
 {
     t_list *temp;
