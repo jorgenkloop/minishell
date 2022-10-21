@@ -3,6 +3,33 @@
 
 int g_status;
 
+<<<<<<< HEAD
+=======
+//Rinor.s comment
+void	ft_printlist(t_list *list)
+{
+	t_list *ptr = list;
+	while (ptr)
+	{
+		printf("%s\n", ptr->s);
+		ptr = ptr->next;
+	}
+}
+
+void	printss(char **ss)
+{
+	char	**ptr;
+
+	ptr = ss;
+	while(*ptr != 0)
+	{
+		printf("%s\n", *ptr);
+		ptr++;
+	}
+	//printf("\n");
+}
+
+>>>>>>> cc40cb64d27428721ef522ae811f61789416c949
 void	readcmd(t_cmd *cmd)
 {
 	
