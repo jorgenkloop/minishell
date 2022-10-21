@@ -3,6 +3,7 @@
 
 int g_status;
 
+//Rinor.s comment
 void	ft_printlist(t_list *list)
 {
 	t_list *ptr = list;
