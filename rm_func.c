@@ -30,7 +30,7 @@ char    **rm_quote(char **arg, int i, int j, int k)
         free(new);
         new = NULL; 
     }
-    return(arg);
+    return (arg);
 }
 
 //removes whitespace in a string
