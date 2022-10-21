@@ -64,7 +64,7 @@ char	*get_readline(void);
 
 int		find_len(char *arg, char s);
 int		find_ctr(char **arg);
-int		get_fd(t_data data, int oldfd);
+int		get_fd(t_data data, int oldfd, int fd);
 int		run_echo(t_data data, int fd, int i, int j);
 int		is_builtin(t_data data);
 int		get_here_doc(char *delim);

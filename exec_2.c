@@ -1,12 +1,12 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-int get_fd(t_data data, int oldfd)
+int get_fd(t_data data, int oldfd, int fd)
 {
     char    *s;
     int     i;
-    int     fd;
 
+    s = NULL;
     if (data.cmd->stdin_redir != NULL && data.cmd->stout_redir != NULL && oldfd < 1)
         s = data.cmd->stdin_redir->s;
     else if (data.cmd->stout_redir != NULL)
@@ -56,14 +56,14 @@ static void child_redirect(t_data data, int fd[2])
 {
     if (data.cmd->infile != STDIN_FILENO || data.cmd->stdin_redir != NULL)
     {
-        data.cmd->infile = get_fd(data, data.cmd->infile);
+        data.cmd->infile = get_fd(data, data.cmd->infile, 0);
         if (dup2(data.cmd->infile, STDIN_FILENO) < 0)
             mini_perror("Error with dup2 command\n", 126, 1);
         close(data.cmd->infile);
     }
     if (data.cmd->stout_redir != NULL)
     {
-        data.cmd->outfile = get_fd(data, data.cmd->outfile);
+        data.cmd->outfile = get_fd(data, data.cmd->outfile, 0);
         if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
             mini_perror("Error with dup2 command\n", 126, 1);
     }
