@@ -71,7 +71,7 @@ void	exec_loop(t_data data)
 	if (data.cmd->stout_redir != NULL)
 	{
 		if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
-			return;
+			return ;
 		close(data.cmd->outfile);
 	}
 	s = exec_arg(data);
@@ -112,9 +112,9 @@ void	exec_fork(t_data data, int fd[2], int pid, int status)
 	{
 		waitpid(pid, &status, 0);
 		if (status >= 256 || status == 0)
-			g_status = status/256;
+			g_status = status / 256;
 		if (g_status == 127 && data.cmd->exe->s[0] != '\0')
-		   mini_perror("Error command not found\n", 127, 0);
+			mini_perror("Error command not found\n", 127, 0);
 	}
 }
 
