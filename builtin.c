@@ -16,7 +16,7 @@ void	run_pwd(t_data data)
 	g_status = 0;
 }
 
-static int 	option_check(t_list *args)
+static int	option_check(t_list *args)
 {
 	t_list	*arg;
 	int		i;
@@ -73,13 +73,13 @@ int	check_redirect(t_data data)
 	int		len;
 
 	i = -1;
-	while(data.cmd->full[++i] != NULL)
+	while (data.cmd->full[++i] != NULL)
 	{	
 		if (data.cmd->full[i][0] == '<' || data.cmd->full[i][0] == '>')
 		{
 			c = data.cmd->full[i][0];
 			len = ft_strlen(data.cmd->full[i]);
-			if (!data.cmd->full[i+1]
+			if (!data.cmd->full[i + 1]
 				&& ((len == 2 && data.cmd->full[i][1] == c) || len == 1))
 			{
 				mini_perror("Syntax err near unex token `newline\'\n", 2, 0);
