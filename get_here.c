@@ -2,7 +2,7 @@
 #include "libft/libft.h"
 
 //reads string from the input and stops when delim is typed
-static char		*get_here_string(char *delim, int len)
+static char	*get_here_string(char *delim, int len)
 {
 	char	*read;
 	char	*ret;
