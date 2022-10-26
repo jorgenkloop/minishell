@@ -2,16 +2,16 @@
 #include "libft/libft.h"
 
 //called by check_dollar to return the end position
-int  find_end(char *arg, int i)
+int	find_end(char *arg, int i)
 {
-    while (arg[++i] != '\0')
-    {
-        if (arg[i] == ' ' || arg[i] == '/')
-            return (i);
-        else if (arg[i] == '\"')
-            return (i);
-    }
-    return (i);
+	while (arg[++i] != '\0')
+	{
+		if (arg[i] == ' ' || arg[i] == '/')
+			return (i);
+		else if (arg[i] == '\"')
+			return (i);
+	}
+	return (i);
 }
 
 //handles the ctrl-c signal
