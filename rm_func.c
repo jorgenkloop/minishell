@@ -4,41 +4,41 @@
 //removed quotes from the **arg
 //i and j must be -1, k must be 0
 //called by lexer
-char    **rm_quote(char **arg, int i, int j, int k)
+char	**rm_quote(char **arg, int i, int j, int k)
 {
-    char    *new;
-    char    c;
+	char	*new;
+	char	c;
 
-    while (arg[++i] != NULL)
-    {
-        k = 0;
-        j = -1;
-        if (arg[i][0] != '\'' && arg[i][0] != '\"')
-            continue ;
-        c = arg[i][0];
-        new = (char *)malloc(sizeof(char) * (ft_strlen(arg[i]) - 1));
-        while (arg[i][++j] != '\0')
-        {
-            if (arg[i][j] == c)
-                continue ;
-            new[k] = arg[i][j];
-            k++;
-        }
-        new[k] = '\0';
-        free(arg[i]);
-        arg[i] = ft_strdup(new);
-        free(new);
-        new = NULL; 
-    }
-    return (arg);
+	while (arg[++i] != NULL)
+	{
+		k = 0;
+		j = -1;
+		if (arg[i][0] != '\'' && arg[i][0] != '\"')
+			continue ;
+		c = arg[i][0];
+		new = (char *)malloc(sizeof(char) * (ft_strlen(arg[i]) - 1));
+		while (arg[i][++j] != '\0')
+		{
+			if (arg[i][j] == c)
+				continue ;
+			new[k] = arg[i][j];
+			k++;
+		}
+		new[k] = '\0';
+		free(arg[i]);
+		arg[i] = ft_strdup(new);
+		free(new);
+		new = NULL;
+	}
+	return (arg);
 }
 
 //removes whitespace in a string
 //c and k must be 0, i must be -1
-//called by main 
+//called by main
 char	*rm_whitespace(char *s, char c, int k, int i)
 {
-	char *new;
+	char	*new;
 
 	new = (char *)ft_calloc(ft_strlen(s) + 2, sizeof(char));
 	while (s[++i] != '\0')
