@@ -18,6 +18,7 @@ int	find_len(char *arg, char s)
 			if (i != 0 && arg[i - 1] && arg[i - 1] != ' ')
 				len++;
 			while (arg[++i] != c);
+
 			len++;
 			if (arg[i + 1] != '\0')
 				i++;
@@ -56,7 +57,7 @@ int	find_ctr(char **arg)
 		}
 	}
 	if (ctr == 1)
-	 ctr = 3;
+		ctr = 3;
 	return (ctr);
 }
 
