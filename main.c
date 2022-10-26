@@ -1,17 +1,17 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-int g_status;
+int	g_status;
 
-t_list *ret_free_list(t_list *list)
+t_list	*ret_free_list(t_list *list)
 {
-    t_list *temp;
+	t_list	*temp;
 
-    temp = list;
-    list = list->next;
-    free(temp->s);
-    free(temp);
-    return (list);
+	temp = list;
+	list = list->next;
+	free(temp->s);
+	free(temp);
+	return (list);
 }
 
 void	ft_freelist(t_list *list)
@@ -42,9 +42,9 @@ void	freecmd(t_cmd *cmd)
 
 int	main(int argc, char *argv[], char *envp[])
 {
-	t_data  data;
-	char    **input;
-	char    *s;
+	t_data	data;
+	char	**input;
+	char	*s;
 
 	if (argv [1] != NULL && argc != 1)
 		return (0);
