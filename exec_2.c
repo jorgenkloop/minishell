@@ -14,8 +14,9 @@ int	get_fd(t_data data, int oldfd, int fd, char *s)
 		s = data.cmd->stdin_redir->s;
 	else if (data.cmd->stdin_redir == NULL && data.cmd->stout_redir == NULL)
 		return (oldfd);
-	i = -1;
-	while (s[++i] == '>' || s[i] == ' ' || s[i] == '<');
+	i = 0;
+	while (s[i] == '>' || s[i] == ' ' || s[i] == '<')
+		i++;
 	if (s[0] == '>' && s[1] == '>')
 		fd = open(s + i, O_CREAT | O_WRONLY | O_APPEND, 0777);
 	else if (s[0] == '>' && s[1] != '>')
@@ -78,7 +79,8 @@ static void	child_builtin(t_data data)
 {
 	if (is_builtin(data) == 0)
 		exec_loop(data);
-	else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "echo", 4)))
+	else if (is_builtin(data) == 1
+		&& !(ft_strncmp(data.cmd->exe->s, "echo", 4)))
 		g_status = run_echo(data, data.cmd->outfile, 0, -1);
 	else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "pwd", 3)))
 		run_pwd(data);
