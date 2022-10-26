@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-static size_t   getpipelen(char **ss)
+static size_t	getpipelen(char **ss)
 {
 	size_t	len;
 	char	**ptr;
@@ -16,10 +16,10 @@ static size_t   getpipelen(char **ss)
 	return (len);
 }
 
-static void newcmd(t_cmd **cmd)
+static void	newcmd(t_cmd **cmd)
 {
 	t_cmd	*newcmd;
-	
+
 	newcmd = malloc(sizeof(t_cmd));
 	newcmd->exe = 0;
 	newcmd->args = 0;
@@ -31,11 +31,11 @@ static void newcmd(t_cmd **cmd)
 	(*cmd) = (*cmd)->next;
 }
 
-static void fillcmd(t_cmd **cmd, char ***ss)
+static void	fillcmd(t_cmd **cmd, char ***ss)
 {
 	size_t	len;
 	size_t	i;
-	
+
 	len = getpipelen(*ss);
 	i = 0;
 	(*cmd)->full = malloc(sizeof(char *) * (len + 1));
@@ -44,7 +44,7 @@ static void fillcmd(t_cmd **cmd, char ***ss)
 	{
 	 	(*cmd)->full[i] = ft_strdup(*(*ss));
 	 	(*ss)++;
-	 	i++;	
+	 	i++;
 	}
 	getinredir(*cmd);
 	getoutredir(*cmd);
