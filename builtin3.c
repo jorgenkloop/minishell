@@ -36,8 +36,9 @@ static char	**resize_insert(char *s, char **envp)
 	int		len;
 
 	i = 0;
-	len = -1;
-	while (envp[++len] != NULL);
+	len = 0;
+	while (envp[len] != NULL)
+		len++;
 	new = (char **)ft_calloc(len + 2, sizeof(char *));
 	while (envp[i] != NULL)
 	{
