@@ -2,7 +2,7 @@
 #include "libft/libft.h"
 
 //joins 2 strings with only a \n separating them
-char    *ft_strjoin_n(char const *s1, char const *s2)
+char	*ft_strjoin_n(char const *s1, char const *s2)
 {
 	char	*newstr;
 	int		s1_len;
@@ -77,7 +77,7 @@ void	run_cd(t_cmd *c, char ***envp, int flag)
 	char	*s;
 	char	*pwd;
 	int		pos[2];
-	
+
 	if (!c->args || (c->args && !ft_strncmp(c->args->s, "~", 1)))
 	{
 		pos[0] = 0;
