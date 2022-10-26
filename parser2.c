@@ -28,8 +28,8 @@ static void	addlist(t_list **list, char *newstr)
 		*list = newlist;
 	else
 	{
-	 	while (ptr && ptr->next)
-	 		ptr = ptr->next;
+		while (ptr && ptr->next)
+			ptr = ptr->next;
 		ptr->next = newlist;
 	}
 }
@@ -44,9 +44,9 @@ void	getoutredir(t_cmd *cmd)
 	i = 0;
 	while (i < (int)sslen(cmd->full))
 	{
-	 	str = cmd->full[i];
-	 	nextstr = cmd->full[i + 1];
-		if(!ft_strncmp(">", str, 1) && nextstr != 0)
+		str = cmd->full[i];
+		nextstr = cmd->full[i + 1];
+		if (!ft_strncmp(">", str, 1) && nextstr != 0)
 		{
 			joinedstr = ft_strjoin(str, nextstr);
 			addlist(&cmd->stout_redir, joinedstr);
@@ -68,9 +68,9 @@ void	getinredir(t_cmd *cmd)
 	i = 0;
 	while (i < (int)sslen(cmd->full))
 	{
-	 	str = cmd->full[i];
-	 	nextstr = cmd->full[i + 1];
-		if(!ft_strncmp("<", str, 1) && nextstr != 0)
+		str = cmd->full[i];
+		nextstr = cmd->full[i + 1];
+		if (!ft_strncmp("<", str, 1) && nextstr != 0)
 		{
 			joinedstr = ft_strjoin(str, nextstr);
 			addlist(&cmd->stdin_redir, joinedstr);
@@ -86,16 +86,15 @@ void	getexe(t_cmd *cmd)
 {
 	char	*str;
 	int		i;
+	int		len;
 
 	i = 0;
-	int len = sslen(cmd->full);
+	len = sslen(cmd->full);
 	while (i < len)
 	{
 		str = cmd->full[i];
-		if(!ft_strncmp("<", str, 1) || !ft_strncmp(">", str, 1))
-		{
+		if (!ft_strncmp("<", str, 1) || !ft_strncmp(">", str, 1))
 			i = i + 2;
-		}
 		else if (i < len)
 		{
 			addlist(&cmd->exe, str);
