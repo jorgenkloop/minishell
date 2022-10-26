@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-//called by cmd_split. extracts the substrings from command and returns it 
+//called by cmd_split. extracts the substrings from command and returns it
 static char	*ex_str(char *arg, int i, int *j, int flag)
 {
 	char	*s;
@@ -48,7 +48,7 @@ static char	**cmd_split(char *arg, int len, int j, int k)
 		else if (arg[i] == '\'' || arg[i] == '\"')
 		{
 			if (i != 0 && arg[i - 1] && arg[i - 1] != ' ')
-				cmd[k++] = ex_str(arg, i - 1 , &j, 0);
+				cmd[k++] = ex_str(arg, i - 1, &j, 0);
 			i = iter_arg(arg, i, arg[i]);
 			cmd[k++] = ex_str(arg, i, &j, 0);
 			if (arg[i + 1] == ' ')
@@ -76,5 +76,5 @@ char	**lexer(char **envp, char *s)
 	if (ctr[1] > 0)
 		input = split_char(input, (ctr[1] * 2) + ctr[0], -1, 0);
 	input = rm_quote(input, -1, 0, -1);
-	return (input);    
+	return (input);
 }
