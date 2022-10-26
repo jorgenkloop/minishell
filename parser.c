@@ -42,9 +42,9 @@ static void	fillcmd(t_cmd **cmd, char ***ss)
 	(*cmd)->full[len] = 0;
 	while (i < len)
 	{
-	 	(*cmd)->full[i] = ft_strdup(*(*ss));
-	 	(*ss)++;
-	 	i++;
+		(*cmd)->full[i] = ft_strdup(*(*ss));
+		(*ss)++;
+		i++;
 	}
 	getinredir(*cmd);
 	getoutredir(*cmd);
@@ -64,7 +64,7 @@ t_cmd	*parse(char **ss)
 	cmd->infile = 0;
 	cmd->outfile = 1;
 	ptr = cmd;
-	while(*ss)
+	while (*ss)
 	{
 		fillcmd(&ptr, &ss);
 		if (*ss != 0 && !ft_strncmp(*ss, "|", 1))
