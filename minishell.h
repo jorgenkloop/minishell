@@ -18,11 +18,11 @@ extern int	g_status;
 
 typedef struct s_list
 {
-	char	*s;
-	struct	s_list	*next;
+	char			*s;
+	struct s_list	*next;
 }	t_list;
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	char			**full;
 	t_list			*exe;
@@ -34,7 +34,7 @@ typedef struct	s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef struct	s_data
+typedef struct s_data
 {
 	t_cmd	*cmd;
 	char	**envp;
