@@ -1,7 +1,8 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-//called by exp_env, checks for $ sign and returns the position of the start and end
+//called by exp_env, checks for $ sign and returns 
+//the position of the start and end
 static int	*check_dollar(char *arg, int *pos)
 {
 	int	i;
@@ -21,7 +22,7 @@ static int	*check_dollar(char *arg, int *pos)
 			else
 				x[0] = i;
 			x[1] = find_end(arg, i);
-			break;
+			break ;
 		}
 	}
 	pos = x;
@@ -48,13 +49,14 @@ static char	*repl_env(char **env, char *var)
 		{
 			s = ft_strchr(env[i], '=') + 1;
 			name = ft_strdup(s);
-			break;
+			break ;
 		}
 	}
 	return (name);
 }
 
-//called by exp_env. returns the variable name, etc if $USER is called jnm-jaya is returned
+//called by exp_env. returns the variable name, etc if 
+//$USER is called jnm-jaya is returned
 char	*get_env(char *arg, char **env, int *pos)
 {
 	char	*var;
@@ -83,7 +85,8 @@ char	*get_env(char *arg, char **env, int *pos)
 	return (name);
 }
 
-//called by exp_env. a new char * is allocated and returned with the env variable expanded
+//called by exp_env. a new char * is allocated 
+//and returned with the env variable expanded
 static char	*ft_realloc_char(char *old, char *s, int x, int len)
 {
 	char	*new;
@@ -100,7 +103,7 @@ static char	*ft_realloc_char(char *old, char *s, int x, int len)
 		if (k == x)
 		{
 			if (old[k] == '\"')
-				new[i++] = old[k]; 
+				new[i++] = old[k];
 			while (s[++j] != '\0')
 				new[i++] = s[j];
 			k = k + len;
@@ -113,7 +116,8 @@ static char	*ft_realloc_char(char *old, char *s, int x, int len)
 	return (new);
 }
 
-//called by lexer. expands the env variable if it exists otherwise null is returned
+//called by lexer. expands the env variable if 
+//it exists otherwise null is returned
 char	**exp_env(char **arg, char **env, int len)
 {
 	char	*var;
