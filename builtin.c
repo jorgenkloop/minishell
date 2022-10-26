@@ -23,11 +23,11 @@ static int  option_check(t_list *args)
 
     i = 0;
     arg = args;
-    if (arg == NULL)
-        return (0);
-    while(arg->s[0] == '\0')
-    {
-        arg = arg->next;
+	if (arg == NULL)
+		return (0);
+    while (arg->s[0] == '\0')
+	{
+	    arg = arg->next;
         i++;
     }
     if (arg != NULL && arg->s[0] == '-' && arg->s[1] == 'n' && (arg->next))
