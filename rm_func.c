@@ -33,6 +33,14 @@ char	**rm_quote(char **arg, int i, int j, int k)
 	return (arg);
 }
 
+static int	skip_space(char *s, int i)
+{
+	i++;
+	while (s[i] && s[i] == ' ')
+		i++;
+	return (i);
+}
+
 //removes whitespace in a string
 //c and k must be 0, i must be -1
 //called by main
@@ -52,7 +60,7 @@ char	*rm_whitespace(char *s, char c, int k, int i)
 		}
 		if (c == 0 && s[i] == ' ')
 		{
-			while (s[++i] && s[i] == ' ');
+			i = skip_space(s, i);
 			if (s[i] == '\0')
 				break ;
 			i--;
