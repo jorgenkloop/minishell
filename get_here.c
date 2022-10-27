@@ -23,8 +23,11 @@ static char	*get_here_string(char *delim, int len)
 	read = NULL;
 	ret = NULL;
 	temp = NULL;
-	while (ft_strncmp(delim, read, len))
+	while (1)
 	{
+		if (read != NULL && (int)ft_strlen(read) == (len + 1)
+			&& !ft_strncmp(delim, read, len))
+			break ;
 		temp = ret;
 		ret = ft_strjoin(ret, read);
 		free(temp);
