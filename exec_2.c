@@ -47,19 +47,19 @@ int	is_builtin(t_data data)
 	t_cmd	*cmd;
 
 	cmd = data.cmd;
-	if (!(ft_strncmp(cmd->exe->s, "echo", 4)))
+	if (!(ft_strcmp_n(cmd->exe->s, "echo", 4)))
 		return (1);
-	else if (!(ft_strncmp(cmd->exe->s, "cd", 2)))
+	else if (!(ft_strcmp_n(cmd->exe->s, "cd", 2)))
 		return (1);
-	else if (!(ft_strncmp(cmd->exe->s, "pwd", 3)))
+	else if (!(ft_strcmp_n(cmd->exe->s, "pwd", 3)))
 		return (1);
-	else if (!(ft_strncmp(cmd->exe->s, "env", 3)))
+	else if (!(ft_strcmp_n(cmd->exe->s, "env", 3)))
 		return (1);
-	else if (!(ft_strncmp(cmd->exe->s, "export", 6)))
+	else if (!(ft_strcmp_n(cmd->exe->s, "export", 6)))
 		return (1);
-	else if (!(ft_strncmp(cmd->exe->s, "unset", 5)))
+	else if (!(ft_strcmp_n(cmd->exe->s, "unset", 5)))
 		return (1);
-	else if (!(ft_strncmp(cmd->exe->s, "exit", 4)))
+	else if (!(ft_strcmp_n(cmd->exe->s, "exit", 4)))
 		return (1);
 	return (0);
 }
@@ -92,11 +92,13 @@ static void	child_builtin(t_data data)
 	if (is_builtin(data) == 0)
 		exec_loop(data);
 	else if (is_builtin(data) == 1
-		&& !(ft_strncmp(data.cmd->exe->s, "echo", 4)))
+		&& !(ft_strcmp_n(data.cmd->exe->s, "echo", 4)))
 		g_status = run_echo(data, data.cmd->outfile, 0, -1);
-	else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "pwd", 3)))
+	else if (is_builtin(data) == 1
+		&& !(ft_strcmp_n(data.cmd->exe->s, "pwd", 3)))
 		run_pwd(data);
-	else if (is_builtin(data) == 1 && !(ft_strncmp(data.cmd->exe->s, "env", 3)))
+	else if (is_builtin(data) == 1
+		&& !(ft_strcmp_n(data.cmd->exe->s, "env", 3)))
 		run_env(data);
 }
 

@@ -57,3 +57,19 @@ int	get_here_doc(char *delim)
 	close(fd[1]);
 	return (fd[0]);
 }
+
+int	ft_strcmp_n(char *s1, char *s2, int len)
+{
+	int	i;
+
+	i = 0;
+	if (!s1 || !s2)
+		return (1);
+	if ((int)ft_strlen(s1) != len)
+		return (1);
+	if (len == 0)
+		return (0);
+	while (s1[i] && s1[i] == s2[i] && i < len - 1)
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}

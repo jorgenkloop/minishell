@@ -79,6 +79,7 @@ int		run_echo(t_data data, int fd, int i, int j);
 int		is_builtin(t_data data);
 int		get_here_doc(char *delim);
 int		find_end(char *arg, int i);
+int		ft_strcmp_n(char *s1, char *s2, int len);
 
 size_t	sslen(char **ss);
 

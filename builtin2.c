@@ -74,7 +74,7 @@ char	**edit_envp(char **envp, char *var, char *str)
 	}
 	while (envp[++i] != NULL)
 	{
-		if (!(ft_strncmp(envp[i], var, len)))
+		if (!(ft_strcmp_n(envp[i], var, len)))
 		{
 			free(envp[i]);
 			envp[i] = ft_strdup(new);
@@ -90,7 +90,7 @@ void	run_cd(t_cmd *c, char ***envp, int flag)
 	char	*pwd;
 	int		pos[2];
 
-	if (!c->args || (c->args && !ft_strncmp(c->args->s, "~", 1)))
+	if (!c->args || (c->args && !ft_strcmp_n(c->args->s, "~", 1)))
 	{
 		pos[0] = 0;
 		pos[1] = 4;

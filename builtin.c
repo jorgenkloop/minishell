@@ -110,17 +110,17 @@ t_data	builtin(t_data data)
 	check = check_redirect(data);
 	while (data.cmd)
 	{
-		if (data.cmd->next == NULL && !(ft_strncmp(data.cmd->exe->s, "cd", 2))
+		if (data.cmd->next == NULL && !(ft_strcmp_n(data.cmd->exe->s, "cd", 2))
 			&& check != -1)
 			run_cd(data.cmd, &(data.envp), 0);
 		else if (data.cmd->next == NULL
-			&& !(ft_strncmp(data.cmd->exe->s, "export", 6)) && check != -1)
+			&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)) && check != -1)
 			run_export(data.cmd, &(data.envp));
 		else if (data.cmd->next == NULL
-			&& !(ft_strncmp(data.cmd->exe->s, "unset", 5)) && check != -1)
+			&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)) && check != -1)
 			run_unset(data.cmd, &(data.envp));
 		else if (data.cmd->next == NULL
-			&& !(ft_strncmp(data.cmd->exe->s, "exit", 4)) && check != -1)
+			&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
 			run_exit(data);
 		else if (check != -1)
 			check_cmd(data);
