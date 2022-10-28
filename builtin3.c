@@ -30,7 +30,7 @@ static int	check_env(char **envp, char *s, int flag, int i)
 		i = ft_strlen(s);
 	while (envp[++j] != NULL)
 	{
-		if (!(ft_strcmp_n(envp[j], s, i)))
+		if (!(ft_strncmp(envp[j], s, i)))
 		{
 			if (envp[j][i] == '=' && flag == 1)
 				return (j);
