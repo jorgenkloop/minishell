@@ -83,7 +83,7 @@ int		ft_strcmp_n(char *s1, char *s2, int len);
 
 size_t	sslen(char **ss);
 
-void	freecmd(t_cmd *cmd);
+void	freecmd(t_data data);
 void	freess(char **ss);
 void	getexe(t_cmd *cmd);
 void	getinredir(t_cmd *cmd);

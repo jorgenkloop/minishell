@@ -78,6 +78,7 @@ int	run_echo(t_data data, int fd, int i, int j)
 	return (0);
 }
 
+//checks if there is any input after redirects
 int	check_redirect(t_data data)
 {
 	char	c;
@@ -102,31 +103,54 @@ int	check_redirect(t_data data)
 	return (0);
 }
 
+// t_data	builtin(t_data data)
+// {
+// 	t_cmd	*temp;
+// 	int		check;
+
+// 	check = check_redirect(data);
+// 	while (data.cmd)
+// 	{
+// 		if (data.cmd->next == NULL && !(ft_strcmp_n(data.cmd->exe->s, "cd", 2))
+// 			&& check != -1)
+// 			run_cd(data.cmd, &(data.envp), 0);
+// 		else if (data.cmd->next == NULL
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)) && check != -1)
+// 			run_export(data.cmd, &(data.envp));
+// 		else if (data.cmd->next == NULL
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)) && check != -1)
+// 			run_unset(data.cmd, &(data.envp));
+// 		else if (data.cmd->next == NULL
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
+// 			run_exit(data);
+// 		else if (check != -1)
+// 			check_cmd(data);
+// 		temp = data.cmd;
+// 		data.cmd = data.cmd->next;
+// 		freecmd(temp);
+// 	}
+// 	return (data);
+// }
+
 t_data	builtin(t_data data)
 {
-	t_cmd	*temp;
 	int		check;
 
 	check = check_redirect(data);
-	while (data.cmd)
-	{
-		if (data.cmd->next == NULL && !(ft_strcmp_n(data.cmd->exe->s, "cd", 2))
-			&& check != -1)
-			run_cd(data.cmd, &(data.envp), 0);
-		else if (data.cmd->next == NULL
-			&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)) && check != -1)
-			run_export(data.cmd, &(data.envp));
-		else if (data.cmd->next == NULL
-			&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)) && check != -1)
-			run_unset(data.cmd, &(data.envp));
-		else if (data.cmd->next == NULL
-			&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
-			run_exit(data);
-		else if (check != -1)
-			check_cmd(data);
-		temp = data.cmd;
-		data.cmd = data.cmd->next;
-		freecmd(temp);
-	}
+	if (data.cmd->next == NULL && !(ft_strcmp_n(data.cmd->exe->s, "cd", 2))
+		&& check != -1)
+		run_cd(data.cmd, &(data.envp), 0);
+	else if (data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)) && check != -1)
+		run_export(data.cmd, &(data.envp));
+	else if (data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)) && check != -1)
+		run_unset(data.cmd, &(data.envp));
+	else if (data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
+		run_exit(data);
+	else if (check != -1)
+		check_cmd(data);
+	freecmd(data);
 	return (data);
 }

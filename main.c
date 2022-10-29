@@ -39,17 +39,34 @@ void	ft_freelist(t_list *list)
 	}
 }
 
-void	freecmd(t_cmd *cmd)
+// void	freecmd(t_cmd *cmd)
+// {
+// 	t_cmd	*temp;
+
+// 	temp = cmd;
+// 	freess(temp->full);
+// 	ft_freelist(temp->exe);
+// 	ft_freelist(temp->args);
+// 	ft_freelist(temp->stdin_redir);
+// 	ft_freelist(temp->stout_redir);
+// 	free(temp);
+// }
+
+void	freecmd(t_data data)
 {
 	t_cmd	*temp;
 
-	temp = cmd;
-	freess(temp->full);
-	ft_freelist(temp->exe);
-	ft_freelist(temp->args);
-	ft_freelist(temp->stdin_redir);
-	ft_freelist(temp->stout_redir);
-	free(temp);
+	while (data.cmd != NULL)
+	{
+		temp = data.cmd->next;
+		freess(data.cmd->full);
+		ft_freelist(data.cmd->exe);
+		ft_freelist(data.cmd->args);
+		ft_freelist(data.cmd->stdin_redir);
+		ft_freelist(data.cmd->stout_redir);
+		free(data.cmd);
+		data.cmd = temp;
+	}
 }
 
 int	main(int argc, char *argv[], char *envp[])
