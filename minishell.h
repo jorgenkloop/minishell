@@ -96,7 +96,7 @@ void	run_cd(t_cmd *command, char ***envp, int flag);
 void	run_export(t_cmd *command, char ***envp);
 void	run_unset(t_cmd *command, char ***envp);
 void	exec_b(t_data data, char *s);
-void	check_cmd(t_data data, int i);
+void	check_cmd(t_data data);
 void	exec_loop(t_data data);
 void	printss(char **ss);
 void	child_process(t_data data, int fd[2]);

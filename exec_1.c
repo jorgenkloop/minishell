@@ -129,7 +129,7 @@ void	exec_fork(t_data data, int pid, int status)
 		return (mini_perror("Error with fork\n", 1, 0));
 	}
 	else if (pid == 0)
-		check_cmd(data, i);
+		check_cmd(data);
 	else
 	{
 		while (i != 0)
