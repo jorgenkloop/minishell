@@ -83,7 +83,8 @@ int		ft_strcmp_n(char *s1, char *s2, int len);
 
 size_t	sslen(char **ss);
 
-void	freecmd(t_data data);
+void	freedata(t_data data);
+void	freecmd(t_cmd *cmd);
 void	freess(char **ss);
 void	getexe(t_cmd *cmd);
 void	getinredir(t_cmd *cmd);
@@ -95,11 +96,12 @@ void	run_cd(t_cmd *command, char ***envp, int flag);
 void	run_export(t_cmd *command, char ***envp);
 void	run_unset(t_cmd *command, char ***envp);
 void	exec_b(t_data data, char *s);
-void	check_cmd(t_data data);
+void	check_cmd(t_data data, int i);
 void	exec_loop(t_data data);
 void	printss(char **ss);
 void	child_process(t_data data, int fd[2]);
 void	mini_perror(char *err_str, int err_code, int flag);
 void	siginthandler(int sig);
+void	exec_fork(t_data data, int pid, int status);
 
 #endif

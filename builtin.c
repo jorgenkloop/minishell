@@ -109,21 +109,21 @@ int	check_redirect(t_data data)
 // 	int		check;
 
 // 	check = check_redirect(data);
-// 	while (data.cmd)
+// 	while (data.cmd && check != -1)
 // 	{
-// 		if (data.cmd->next == NULL && !(ft_strcmp_n(data.cmd->exe->s, "cd", 2))
-// 			&& check != -1)
+// 		if (data.cmd->next == NULL
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "cd", 2)))
 // 			run_cd(data.cmd, &(data.envp), 0);
 // 		else if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)) && check != -1)
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)))
 // 			run_export(data.cmd, &(data.envp));
 // 		else if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)) && check != -1)
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)))
 // 			run_unset(data.cmd, &(data.envp));
 // 		else if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
+// 			&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)))
 // 			run_exit(data);
-// 		else if (check != -1)
+// 		else
 // 			check_cmd(data);
 // 		temp = data.cmd;
 // 		data.cmd = data.cmd->next;
@@ -150,7 +150,7 @@ t_data	builtin(t_data data)
 		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
 		run_exit(data);
 	else if (check != -1)
-		check_cmd(data);
-	freecmd(data);
+		exec_fork(data, 0, 0);
+	freedata(data);
 	return (data);
 }
