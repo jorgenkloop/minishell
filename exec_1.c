@@ -102,7 +102,7 @@ void	exec_loop(t_data data)
 
 //the main forking function. child process is sent to func child_process
 //main process waits for a change in child process status
-void	exec_fork(t_data data, int pid, int status)
+void	exec_fork(t_data data, int pid, int status, int tmpfd[2])
 {
 	t_list	*temp;
 	int		i;
@@ -124,19 +124,18 @@ void	exec_fork(t_data data, int pid, int status)
 	}
 	if (pid < 0)
 	{
-		//close(fd[0]);
-		//close(fd[1]);
+		close(tmpfd[0]);
+		close(tmpfd[1]);
 		return (mini_perror("Error with fork\n", 1, 0));
 	}
 	else if (pid == 0)
-		check_cmd(data);
+		check_cmd(data, tmpfd, i);
 	else
 	{
-		while (i != 0)
-		{
+		while (i-- != 0)
 			waitpid(-1, &status, 0);
-			i--;
-		}
+		close(tmpfd[0]);
+		close(tmpfd[1]);
 		if (status >= 256 || status == 0)
 			g_status = status / 256;
 		if (g_status == 127 && data.cmd->exe->s[0] != '\0')
@@ -145,7 +144,7 @@ void	exec_fork(t_data data, int pid, int status)
 }
 
 //this function is called for non builtins and if a pipe is detected
-void	check_cmd(t_data data)
+void	check_cmd(t_data data, int tmpfd[2], int i)
 {
 	t_list	*out;
 	int		fd[2];
@@ -156,7 +155,7 @@ void	check_cmd(t_data data)
 		if (pipe(fd) < 0)
 			return (mini_perror("Error with pipe\n", 1, 0));
 		if (data.cmd->exe->s != NULL)
-			child_process(data, fd);
+			child_process(data, fd, tmpfd, i);
 		close(fd[1]);
 		if (data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
 			data.cmd->next->infile = fd[0];

@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 #include "libft/libft.h"
+//#include "libft/get_next_line.h"
 
 void	run_pwd(t_data data)
 {
@@ -134,6 +135,7 @@ int	check_redirect(t_data data)
 
 t_data	builtin(t_data data)
 {
+	int		tmpfd[2];
 	int		check;
 
 	check = check_redirect(data);
@@ -150,7 +152,11 @@ t_data	builtin(t_data data)
 		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
 		run_exit(data);
 	else if (check != -1)
-		exec_fork(data, 0, 0);
+	{
+		if (pipe(tmpfd) < 0)
+			exit(1);
+		exec_fork(data, 0, 0, tmpfd);
+	}
 	freedata(data);
 	return (data);
 }
