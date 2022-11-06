@@ -132,10 +132,10 @@ void	exec_fork(t_data data, int pid, int status, int tmpfd[2])
 		check_cmd(data, tmpfd, i);
 	else
 	{
-		while (i-- != 0)
-			waitpid(-1, &status, 0);
 		close(tmpfd[0]);
 		close(tmpfd[1]);
+		while (i-- != 0)
+			waitpid(-1, &status, 0);
 		if (status >= 256 || status == 0)
 			g_status = status / 256;
 		if (g_status == 127 && data.cmd->exe->s[0] != '\0')

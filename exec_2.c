@@ -82,7 +82,10 @@ static void	child_redirect(t_data data, int fd[2], int tmpfd[2])
 	else if (data.cmd->next != NULL)
 	{
 		if (dup2(tmpfd[1], STDOUT_FILENO) < 0)
+		{
+			printf("%s\n", data.cmd->exe->s);
 			mini_perror("Error with dup2 command\n", 126, 1);
+		}
 	}
 	close(fd[1]);
 }
@@ -102,12 +105,13 @@ static void	child_builtin(t_data data)
 		run_env(data);
 }
 
-void	child_write(t_data data, int fd[2], int tmpfd[2])
+void	child_write(int fd[2], int tmpfd[2])
 {
 	char	*s1;
 	char	*s2;
 	int		len;
 
+	close(tmpfd[1]);
 	s1 = NULL;
 	s2 = NULL;
 	while (1)
@@ -126,12 +130,11 @@ void	child_write(t_data data, int fd[2], int tmpfd[2])
 
 void	child_process(t_data data, int fd[2], int tmpfd[2], int i)
 {
-	if (i > 1)
-		child_write(data, fd, tmpfd);
+	if (i > 1 && data.cmd->next == NULL)
+		child_write(fd, tmpfd);
 	child_redirect(data, fd, tmpfd);
 	close(fd[0]);
 	close(tmpfd[0]);
-	close(tmpfd[1]);
 	child_builtin(data);
 	exit(g_status);
 }
