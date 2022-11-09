@@ -135,27 +135,28 @@ int	check_redirect(t_data data)
 
 t_data	builtin(t_data data)
 {
-	int		tmpfd[2];
-	int		check;
+	int		tmpfd;
+	int		c;
+	int		i;
 
-	check = check_redirect(data);
-	if (data.cmd->next == NULL && !(ft_strcmp_n(data.cmd->exe->s, "cd", 2))
-		&& check != -1)
+	tmpfd = 0;
+	c = check_redirect(data);
+	if (c != -1 && data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "cd", 2)))
 		run_cd(data.cmd, &(data.envp), 0);
-	else if (data.cmd->next == NULL
-		&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)) && check != -1)
+	else if (c != -1 && data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)))
 		run_export(data.cmd, &(data.envp));
-	else if (data.cmd->next == NULL
-		&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)) && check != -1)
+	else if (c != -1 && data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)))
 		run_unset(data.cmd, &(data.envp));
-	else if (data.cmd->next == NULL
-		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)) && check != -1)
+	else if (c != -1 && data.cmd->next == NULL
+		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)))
 		run_exit(data);
-	else if (check != -1)
+	else if (c != -1)
 	{
-		if (pipe(tmpfd) < 0)
-			exit(1);
-		exec_fork(data, 0, 0, tmpfd);
+		i = exec_fork(data, 0, 0, tmpfd);
+		parent_wait(data, i);
 	}
 	freedata(data);
 	return (data);

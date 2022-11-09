@@ -114,7 +114,7 @@ static char	*ft_realloc_char(char *old, char *s, int x, int len)
 	{
 		if (k == x)
 		{
-			if (old[k] == '\"')
+			if (old[k] && old[k] == '\"')
 				new[i++] = old[k];
 			while (s[++j] != '\0')
 				new[i++] = s[j];
@@ -142,7 +142,7 @@ char	**exp_env(char **arg, char **env, int len)
 	while (++i < len && arg[i])
 	{
 		pos = check_dollar(arg[i], pos);
-		if (pos[0] >= 0 && pos[1] > 0)
+		if (pos[1] - pos[0] > 1 && pos[0] >= 0 && pos[1] > 0)
 		{
 			pos2[0] = pos[0];
 			pos2[1] = pos[1];

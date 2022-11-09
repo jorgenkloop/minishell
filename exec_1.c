@@ -102,40 +102,41 @@ void	exec_loop(t_data data)
 
 //the main forking function. child process is sent to func child_process
 //main process waits for a change in child process status
-void	exec_fork(t_data data, int pid, int status, int tmpfd[2])
+int	exec_fork(t_data data, int i, int pid, int tmpfd)
 {
 	t_list	*temp;
-	int		i;
+	int		fd[2];
+	int		num;
 
-	i = 0;
-	while (data.cmd->stdin_redir && data.cmd->stdin_redir->next)
-	{
-		temp = data.cmd->stdin_redir;
-		data.cmd->stdin_redir = ret_free_list(temp);
-	}
+	num = num_cmd(data);
 	while (data.cmd != NULL)
 	{
 		i++;
-		pid = fork();
-		if (pid)
-			data.cmd = data.cmd->next;
-		if (!pid)
+		data = check_in_out(data);
+		if (i != num && pipe(fd) < 0)
+		{
+			mini_perror("Error with pipe\n", 1, 0);
 			break ;
+		}
+		pid = fork();
+		if (pid < 0)
+			close_exit(fd);
+		else if (pid == 0)
+			child_process(data, fd, tmpfd, i);
+		data = parent_fd(data, fd, tmpfd);
+		data.cmd = data.cmd->next;
 	}
-	if (pid < 0)
+	return (i);
+}
+
+void	parent_wait(t_data data, int i)
+{
+	int	status;
+
+	while (i != 0)
 	{
-		close(tmpfd[0]);
-		close(tmpfd[1]);
-		return (mini_perror("Error with fork\n", 1, 0));
-	}
-	else if (pid == 0)
-		check_cmd(data, tmpfd, i);
-	else
-	{
-		close(tmpfd[0]);
-		close(tmpfd[1]);
-		while (i-- != 0)
-			waitpid(-1, &status, 0);
+		waitpid(-1, &status, 0);
+		i--;
 		if (status >= 256 || status == 0)
 			g_status = status / 256;
 		if (g_status == 127 && data.cmd->exe->s[0] != '\0')
@@ -143,31 +144,67 @@ void	exec_fork(t_data data, int pid, int status, int tmpfd[2])
 	}
 }
 
-//this function is called for non builtins and if a pipe is detected
-void	check_cmd(t_data data, int tmpfd[2], int i)
-{
-	t_list	*out;
-	int		fd[2];
+// void	exec_fork(t_data data, int i, int status, int tmpfd)
+// {
+// 	t_list	*temp;
+// 	int		fd[2];
+// 	int		pid;
+// 	int		num;
 
-	while (1)
-	{
-		out = data.cmd->stout_redir;
-		if (pipe(fd) < 0)
-			return (mini_perror("Error with pipe\n", 1, 0));
-		if (data.cmd->exe->s != NULL)
-			child_process(data, fd, tmpfd, i);
-		close(fd[1]);
-		if (data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
-			data.cmd->next->infile = fd[0];
-		else
-			close(fd[0]);
-		if (data.cmd->infile > 2)
-			close(data.cmd->infile);
-		if (data.cmd->outfile > 2)
-			close(data.cmd->outfile);
-		if (out == NULL || (out != NULL && out->next == NULL))
-			break ;
-		else if (out != NULL && out->next != NULL)
-			data.cmd->stout_redir = ret_free_list(out);
-	}
-}
+// 	num = num_cmd(data);
+// 	while (i <= num)
+// 	{
+// 		i++;
+// 		if (i != num && pipe(fd) < 0)
+// 			return (mini_perror("Error with pipe\n", 1, 0));
+// 		data = check_in_out(data);
+// 		pid = fork();
+// 		if (pid < 0)
+// 			close_exit(fd);
+// 		if (pid == 0)
+// 			child_process(data, fd, tmpfd, i);
+// 	}
+// 	while (i != 0)
+// 	{
+// 		data = parent_fd(data, fd, tmpfd);
+// 		waitpid(-1, &status, 0);
+// 		if (status >= 256 || status == 0)
+// 			g_status = status / 256;
+// 		if (g_status == 127 && data.cmd->exe->s[0] != '\0')
+// 			mini_perror("Error command not found\n", 127, 0);
+// 		i--;
+// 	}
+// }
+
+//this function is called for non builtins and if a pipe is detected
+// void	check_cmd(t_data data, int tmpfd)
+// {
+// 	t_list	*out;
+// 	int		num;
+// 	//int		fd[2];
+
+// 	num = num_cmd(data);
+// 	while (1)
+// 	{
+// 		out = data.cmd->stout_redir;
+// 		//if (pipe(fd) < 0)
+// 		//	return (mini_perror("Error with pipe\n", 1, 0));
+// 		if (data.cmd->exe->s != NULL)
+// 			exec_fork(data, num, 0, tmpfd);
+// 		//close(fd[1]);
+// 		//if (data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
+// 		//	data.cmd->next->infile = fd[0];
+// 		//else
+// 		//	close(fd[0]);
+// 		// if (data.cmd->infile > 2)
+// 		// 	close(data.cmd->infile);
+// 		// if (data.cmd->outfile > 2)
+// 		// 	close(data.cmd->outfile);
+
+// 		//put in the child process
+// 		// if (out == NULL || (out != NULL && out->next == NULL))
+// 		// 	break ;
+// 		// else if (out != NULL && out->next != NULL)
+// 		// 	data.cmd->stout_redir = ret_free_list(out);
+// 	}
+// }

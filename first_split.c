@@ -40,7 +40,7 @@ static char	*ex_str(char *arg, int i, int *j, int flag)
 static int	iter_arg(char *arg, int i, int flag)
 {
 	i++;
-	while (arg[i] != flag)
+	while (arg[i] && arg[i] != flag)
 		i++;
 	return (i);
 }

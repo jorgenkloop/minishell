@@ -54,6 +54,8 @@ typedef struct s_data
 }	t_data;
 
 t_data	builtin(t_data data);
+t_data	check_in_out(t_data data);
+t_data	parent_fd(t_data data, int fd[2], int tmpfd);
 
 t_cmd	*parse(char **ss);
 
@@ -81,6 +83,7 @@ int		is_builtin(t_data data);
 int		get_here_doc(char *delim);
 int		find_end(char *arg, int i);
 int		ft_strcmp_n(char *s1, char *s2, int len);
+int		num_cmd(t_data data);
 
 size_t	sslen(char **ss);
 
@@ -97,12 +100,14 @@ void	run_cd(t_cmd *command, char ***envp, int flag);
 void	run_export(t_cmd *command, char ***envp);
 void	run_unset(t_cmd *command, char ***envp);
 void	exec_b(t_data data, char *s);
-void	check_cmd(t_data data, int tmpfd[2], int i);
+void	check_cmd(t_data data, int tmpfd);
 void	exec_loop(t_data data);
 void	printss(char **ss);
-void	child_process(t_data data, int fd[2], int tmpfd[2], int i);
+void	child_process(t_data data, int fd[2], int tmpfd, int i);
 void	mini_perror(char *err_str, int err_code, int flag);
 void	siginthandler(int sig);
-void	exec_fork(t_data data, int pid, int status, int tmpfd[2]);
+int		exec_fork(t_data data, int i, int pid, int tmpfd);
+void	close_exit(int fd[2]);
+void	parent_wait(t_data data, int i);
 
 #endif

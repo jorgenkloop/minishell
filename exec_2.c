@@ -64,7 +64,30 @@ int	is_builtin(t_data data)
 	return (0);
 }
 
-static void	child_redirect(t_data data, int fd[2], int tmpfd[2])
+// static void	child_redirect(t_data data, int fd[2], int tmpfd)
+// {
+// 	if (data.cmd->infile != STDIN_FILENO || data.cmd->stdin_redir != NULL)
+// 	{
+// 		data.cmd->infile = get_fd(data, data.cmd->infile, 0, NULL);
+// 		if (dup2(data.cmd->infile, STDIN_FILENO) < 0)
+// 			mini_perror("Error with dup2 command\n", 126, 1);
+// 		close(data.cmd->infile);
+// 	}
+// 	if (data.cmd->stout_redir != NULL)
+// 	{
+// 		data.cmd->outfile = get_fd(data, data.cmd->outfile, 0, NULL);
+// 		if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
+// 			mini_perror("Error with dup2 command\n", 126, 1);
+// 	}
+// 	else if (data.cmd->next != NULL)
+// 	{
+// 		if (dup2(fd[1], STDOUT_FILENO) < 0)
+// 			mini_perror("Error with dup2 command\n", 126, 1);
+// 	}
+// 	close(fd[1]);
+// }
+
+static void	child_redirect(t_data data, int fd[2], int tmpfd)
 {
 	if (data.cmd->infile != STDIN_FILENO || data.cmd->stdin_redir != NULL)
 	{
@@ -81,11 +104,8 @@ static void	child_redirect(t_data data, int fd[2], int tmpfd[2])
 	}
 	else if (data.cmd->next != NULL)
 	{
-		if (dup2(tmpfd[1], STDOUT_FILENO) < 0)
-		{
-			printf("%s\n", data.cmd->exe->s);
+		if (dup2(fd[1], STDOUT_FILENO) < 0)
 			mini_perror("Error with dup2 command\n", 126, 1);
-		}
 	}
 	close(fd[1]);
 }
@@ -105,36 +125,26 @@ static void	child_builtin(t_data data)
 		run_env(data);
 }
 
-void	child_write(int fd[2], int tmpfd[2])
-{
-	char	*s1;
-	char	*s2;
-	int		len;
+// t_data	child_cmd(t_data data, int i)
+// {
+// 	t_cmd	*tmp;
+// 	int		ctr;
 
-	close(tmpfd[1]);
-	s1 = NULL;
-	s2 = NULL;
-	while (1)
-	{
-		s1 = get_next_line(tmpfd[0]);
-		if (!s1)
-			break ;
-		s2 = ft_strjoin(s2, s1);
-		free(s1);
-		s1 = NULL;
-	}
-	len = ft_strlen(s2);
-	write(fd[1], s2, len);
-	dup2(fd[0], STDIN_FILENO);
-}
+// 	ctr = 0;
+// 	while (ctr != 1 - 1)
+// 	{
+// 		tmp = data.cmd->next;
+// 		freecmd(data.cmd);
+// 		data.cmd = tmp;
+// 	}
+// 	return (data);
+// }
 
-void	child_process(t_data data, int fd[2], int tmpfd[2], int i)
+void	child_process(t_data data, int fd[2], int tmpfd, int i)
 {
-	if (i > 1 && data.cmd->next == NULL)
-		child_write(fd, tmpfd);
+	//data = child_cmd(data, i);
 	child_redirect(data, fd, tmpfd);
 	close(fd[0]);
-	close(tmpfd[0]);
 	child_builtin(data);
 	exit(g_status);
 }
