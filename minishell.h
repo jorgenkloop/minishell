@@ -56,6 +56,7 @@ typedef struct s_data
 t_data	builtin(t_data data);
 t_data	check_in_out(t_data data);
 t_data	parent_fd(t_data data, int fd[2], int tmpfd);
+t_data	find_heredoc(t_data data);
 
 t_cmd	*parse(char **ss);
 
@@ -109,5 +110,6 @@ void	siginthandler(int sig);
 int		exec_fork(t_data data, int i, int pid, int tmpfd);
 void	close_exit(int fd[2]);
 void	parent_wait(t_data data, int i);
+void	ft_freelist(t_list *list);
 
 #endif

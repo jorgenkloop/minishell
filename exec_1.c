@@ -112,6 +112,7 @@ int	exec_fork(t_data data, int i, int pid, int tmpfd)
 	while (data.cmd != NULL)
 	{
 		i++;
+		data = find_heredoc(data);
 		data = check_in_out(data);
 		if (i != num && pipe(fd) < 0)
 		{

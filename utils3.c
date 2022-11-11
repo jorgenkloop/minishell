@@ -14,17 +14,6 @@ int	num_cmd(t_data data)
 	return (i);
 }
 
-void	parent_process(t_data data, int fd[2], int tmpfd)
-{
-	int	status;
-
-	waitpid(-1, &status, 0);
-	if (status >= 256 || status == 0)
-		g_status = status / 256;
-	if (g_status == 127 && data.cmd->exe->s[0] != '\0')
-		mini_perror("Error command not found\n", 127, 0);
-}
-
 void	close_exit(int fd[2])
 {
 	close(fd[0]);
@@ -90,23 +79,3 @@ t_data	parent_fd(t_data data, int fd[2], int tmpfd)
 		close(data.cmd->outfile);
 	return (data);
 }
-
-// t_data	parent_fd(t_data data, int fd[2], int tmpfd)
-// {
-// 	close(fd[1]);
-// 	if (data.cmd && data.cmd->next && !data.cmd->next->stdin_redir)
-// 		{
-// 			//tmpfd = fd[0];
-// 			//if (dup2(tmpfd, fd[0]) < 0)
-// 			//	mini_perror("Error with dup2 command\n", 126, 0);
-// 			data.cmd->next->infile = tmpfd;
-// 			//data.cmd->next->infile = fd[0];
-// 		}
-// 	else
-// 		close(fd[0]);
-// 	if (data.cmd && data.cmd->infile > 2)
-// 		close(data.cmd->infile);
-// 	if (data.cmd && data.cmd->outfile > 2)
-// 		close(data.cmd->outfile);
-// 	return (data);
-// }

@@ -73,3 +73,25 @@ int	ft_strcmp_n(char *s1, char *s2, int len)
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
+
+t_data	find_heredoc(t_data data)
+{
+	t_list	*temp;
+	char	*s;
+	int		i;
+
+	while (data.cmd->stdin_redir && data.cmd->stdin_redir->next)
+	{
+		s = data.cmd->stdin_redir->s;
+		if (s[0] == '<' && s[1] == '<')
+		{
+			if (data.cmd->stdin_redir->next)
+				data.cmd->infile = get_here_doc(s + 2);
+			else if (data.cmd->next)
+				data.cmd->next->infile = get_here_doc(s + 2);
+		}
+		temp = data.cmd->stdin_redir;
+		data.cmd->stdin_redir = ret_free_list(temp);
+	}
+	return (data);
+}
