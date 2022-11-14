@@ -69,7 +69,7 @@ char	**edit_envp(char **envp, char *var, char *str);
 char	**lexer(char **envp, char *s);
 char	*rm_quote(char *arg, int i, int j, int k);
 
-char	*free_and_alloc(char *old, char *new, int flag);
+char	*free_and_alloc(char *old, char *new, int flag, int end);
 char	*ft_strjoin_n(char const *s1, char const *s2);
 char	*get_env(char *arg, char **env, int *pos);
 char	*iter_dir(t_data data, int index, char *s);

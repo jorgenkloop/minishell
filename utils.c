@@ -109,7 +109,7 @@ char	**dup_matrix(char **old)
 }
 
 //frees the old, allocates it with new and frees new if flag is 1
-char	*free_and_alloc(char *old, char *new, int flag)
+char	*free_and_alloc(char *old, char *new, int flag, int end)
 {
 	char	*s;
 	int		i;
@@ -122,13 +122,14 @@ char	*free_and_alloc(char *old, char *new, int flag)
 	}
 	else
 	{
-		i = 0;
-		while (old[i] != '$')
-			i++;
-		s = malloc(sizeof(char) * (i + 1));
-		s[i] = '\0';
-		while (--i >= 0)
+		i = -1;
+		s = malloc(sizeof(char) * ft_strlen(old));
+		while (++i < end && old[i] != '$')
 			s[i] = old[i];
+		if (old[end] != '\0' && old[end + 1] != '\0')
+			while (old[end + 1] != '\0')
+				s[i++] = old[++end];
+		s[i] = '\0';
 		free(old);
 		old = ft_strdup(s);
 		free(s);

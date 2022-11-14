@@ -150,11 +150,11 @@ char	**exp_env(char **arg, char **env, int len)
 			var = get_env(arg[i], env, pos);
 			if (var == NULL)
 			{
-				arg[i] = free_and_alloc(arg[i], "", 0);
+				arg[i] = free_and_alloc(arg[i], "", 0, pos2[1]);
 				continue ;
 			}
 			new = ft_realloc_char(arg[i], var, pos2[0], pos2[1] - pos2[0]);
-			arg[i] = free_and_alloc(arg[i], new, 1);
+			arg[i] = free_and_alloc(arg[i], new, 1, 0);
 		}
 	}
 	return (arg);
