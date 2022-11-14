@@ -57,7 +57,7 @@ int	run_echo(t_data data, int fd, int i, int j)
 	t_list	*arg;
 
 	arg = data.cmd->args;
-	if (arg == NULL || arg->s[0] == '\0')
+	if (arg == NULL)
 		return (write(fd, "\n", 1));
 	i = option_check(arg);
 	while (arg != NULL && i != -1)
@@ -66,7 +66,7 @@ int	run_echo(t_data data, int fd, int i, int j)
 			while (++j < i)
 				arg = arg->next;
 		ft_putstr_fd(arg->s, fd);
-		if (arg->next != NULL)
+		if (arg->next != NULL && arg->s[0] != '\0')
 			write(fd, " ", 1);
 		else if (arg->next == NULL && i > 0)
 			write(fd, "\0", 1);
