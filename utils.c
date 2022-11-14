@@ -29,7 +29,7 @@ int	find_len(char *arg, char s)
 			c = arg[i];
 			if (i != 0 && arg[i - 1] && arg[i - 1] != ' ')
 				len++;
-			while (arg[++i] && arg[++i] != c)
+			while (arg[++i] && arg[i] != c)
 				;
 			len++;
 			if (arg[i + 1] != '\0')
