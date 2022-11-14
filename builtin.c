@@ -150,7 +150,7 @@ t_data	builtin(t_data data)
 		run_unset(data.cmd, &(data.envp));
 	else if (c != -1 && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)))
-		run_exit(data);
+		run_exit(data, -1);
 	else if (c != -1)
 	{
 		i = exec_fork(data, 0, 0, 0);

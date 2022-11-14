@@ -111,7 +111,7 @@ void	run_cd(t_cmd *c, char ***envp, int flag)
 		free(s);
 }
 
-void	run_exit(t_data data)
+void	run_exit(t_data data, int i)
 {
 	t_cmd	*cmd;
 	int		status;
@@ -119,10 +119,23 @@ void	run_exit(t_data data)
 	cmd = data.cmd;
 	if (cmd->args == NULL)
 		exit(1);
-	if (cmd->args != NULL && cmd->args->next != NULL)
-		return (mini_perror("exit: too many arguments\n", 2, 0));
-	if (cmd->args && cmd->args->s[0] < 48 && cmd->args->s[0] > 57)
-		exit(2);
+	if (cmd->args->next != NULL)
+	{
+		while (cmd->args->s[++i] != '\0')
+		{
+			if (cmd->args->s[i] < 48 || cmd->args->s[i] > 57)
+				mini_perror("exit: numeric arg required\n", 2, 1);
+			if (cmd->args->s[i + 1] == '\0')
+				return (mini_perror("exit: too many arguments\n", 2, 0));
+		}
+	}
+	if (cmd->args && !cmd->args->next)
+	{
+		while (cmd->args->s[++i] != '\0')
+			if (cmd->args->s[i] < 48 || cmd->args->s[i] > 57)
+				mini_perror("exit: numeric arg required\n", 2, 1);
+	}
+		mini_perror("exit: numeric arg required\n", 2, 1);
 	status = ft_atoi(cmd->args->s);
 	exit(status);
 }

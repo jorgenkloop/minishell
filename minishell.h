@@ -98,7 +98,7 @@ void	getinredir(t_cmd *cmd);
 void	getoutredir(t_cmd *cmd);
 void	run_pwd(t_data data);
 void	run_env(t_data data);
-void	run_exit(t_data data);
+void	run_exit(t_data data, int i);
 void	run_cd(t_cmd *command, char ***envp, int flag);
 void	run_export(t_cmd *command, char ***envp, int flag);
 void	run_unset(t_cmd *command, char ***envp);
