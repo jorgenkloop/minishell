@@ -15,7 +15,7 @@
 
 //called by exp_env, checks for $ sign and returns 
 //the position of the start and end
-static int	*check_dollar(char *arg, int *pos)
+static int	*check_dollar(char *arg, int *pos, int ctr)
 {
 	int	i;
 	int	x[2];
@@ -25,8 +25,8 @@ static int	*check_dollar(char *arg, int *pos)
 	x[1] = -1;
 	while (arg[++i] != '\0')
 	{
-		if (arg[0] == '\'')
-			break ;
+		if (arg[i] == '\'' && ctr != 1)
+			i = iter_arg(arg, i, arg[i]);
 		if (arg[i] == '$')
 		{
 			if (i != 0 && arg[i - 1] == '\"')
@@ -36,6 +36,8 @@ static int	*check_dollar(char *arg, int *pos)
 			x[1] = find_end(arg, i);
 			break ;
 		}
+		if (arg[i] == '\"')
+			ctr++;
 	}
 	pos = x;
 	return (pos);
@@ -84,8 +86,8 @@ char	*get_env(char *arg, char **env, int *pos)
 		a++;
 	else if (arg[a] == '\"')
 		a += 2;
-	var = (char *)malloc(sizeof(char) * ((b - a) + 1));
-	while (a < b)
+	var = (char *)malloc(sizeof(char) * ((b - a) + 2));
+	while (a <= b)
 	{
 		var[i] = arg[a];
 		a++;
@@ -114,14 +116,12 @@ static char	*ft_realloc_char(char *old, char *s, int x, int len)
 	{
 		if (k == x)
 		{
-			if (old[k] && old[k] == '\"')
-				new[i++] = old[k];
 			while (s[++j] != '\0')
 				new[i++] = s[j];
-			k = k + len;
+			k = k + len + 1;
 		}
-		new[i] = old[k];
-		i++;
+		if (k <= (int)ft_strlen(old) && old[k])
+			new[i++] = old[k];
 	}
 	new[i] = '\0';
 	free(s);
@@ -141,7 +141,8 @@ char	**exp_env(char **arg, char **env, int len)
 	i = -1;
 	while (++i < len && arg[i])
 	{
-		pos = check_dollar(arg[i], pos);
+		pos = check_dollar(arg[i], pos, 0);
+		printf("%s %d and %d\n", arg[i], pos[0], pos[1]);
 		if (pos[1] - pos[0] > 1 && pos[0] >= 0 && pos[1] > 0)
 		{
 			pos2[0] = pos[0];

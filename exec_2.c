@@ -87,7 +87,7 @@ int	is_builtin(t_data data)
 // 	close(fd[1]);
 // }
 
-static void	child_redirect(t_data data, int fd[2], int tmpfd)
+static void	child_redirect(t_data data, int fd[2])
 {
 	if (data.cmd->infile != STDIN_FILENO || data.cmd->stdin_redir != NULL)
 	{
@@ -140,10 +140,10 @@ static void	child_builtin(t_data data)
 // 	return (data);
 // }
 
-void	child_process(t_data data, int fd[2], int tmpfd, int i)
+void	child_process(t_data data, int fd[2])
 {
 	//data = child_cmd(data, i);
-	child_redirect(data, fd, tmpfd);
+	child_redirect(data, fd);
 	close(fd[0]);
 	child_builtin(data);
 	exit(g_status);

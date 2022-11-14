@@ -19,9 +19,9 @@ int	find_end(char *arg, int i)
 	while (arg[++i] != '\0')
 	{
 		if (arg[i] == ' ' || arg[i] == '/')
-			return (i);
-		else if (arg[i] == '\"')
-			return (i);
+			return (i - 1);
+		else if (arg[i] == '\"' || arg[i] == '\'')
+			return (i - 1);
 	}
 	return (i);
 }

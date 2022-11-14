@@ -135,11 +135,9 @@ int	check_redirect(t_data data)
 
 t_data	builtin(t_data data)
 {
-	int		tmpfd;
 	int		c;
 	int		i;
 
-	tmpfd = 0;
 	c = check_redirect(data);
 	if (c != -1 && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "cd", 2)))
@@ -155,7 +153,7 @@ t_data	builtin(t_data data)
 		run_exit(data);
 	else if (c != -1)
 	{
-		i = exec_fork(data, 0, 0, tmpfd);
+		i = exec_fork(data, 0, 0, 0);
 		parent_wait(data, i);
 	}
 	freedata(data);

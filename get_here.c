@@ -78,7 +78,6 @@ t_data	find_heredoc(t_data data)
 {
 	t_list	*temp;
 	char	*s;
-	int		i;
 
 	while (data.cmd->stdin_redir && data.cmd->stdin_redir->next)
 	{

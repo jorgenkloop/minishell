@@ -60,17 +60,19 @@ t_data	check_in_out(t_data data)
 	return (data);
 }
 
-t_data	parent_fd(t_data data, int fd[2], int tmpfd)
+t_data	parent_fd(t_data data, int fd[2], int infilepresent)
 {
+	int	status;
+
+	if (infilepresent)
+	{
+        waitpid(-1, &status, 0);
+		if (status >= 256 || status == 0)
+			g_status = status / 256;
+	}
 	close(fd[1]);
 	if (data.cmd && data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
-	{
-		tmpfd = fd[0];
-		//if (dup2(tmpfd, fd[0]) < 0)
-			//mini_perror("Error with dup2 command\n", 126, 0);
-		data.cmd->next->infile = tmpfd;
-		//data.cmd->next->infile = fd[0];
-	}
+		data.cmd->next->infile = fd[0];
 	else
 		close(fd[0]);
 	if (data.cmd && data.cmd->infile > 2)

@@ -102,32 +102,63 @@ void	exec_loop(t_data data)
 
 //the main forking function. child process is sent to func child_process
 //main process waits for a change in child process status
-int	exec_fork(t_data data, int i, int pid, int tmpfd)
-{
-	t_list	*temp;
-	int		fd[2];
-	int		num;
+// int	exec_fork(t_data data, int i, int pid, int tmpfd)
+// {
+// 	t_list	*temp;
+// 	int		fd[2];
+// 	int		num;
 
-	num = num_cmd(data);
-	while (data.cmd != NULL)
-	{
-		i++;
-		data = find_heredoc(data);
-		data = check_in_out(data);
-		if (i != num && pipe(fd) < 0)
-		{
-			mini_perror("Error with pipe\n", 1, 0);
-			break ;
-		}
-		pid = fork();
-		if (pid < 0)
-			close_exit(fd);
-		else if (pid == 0)
-			child_process(data, fd, tmpfd, i);
-		data = parent_fd(data, fd, tmpfd);
-		data.cmd = data.cmd->next;
-	}
-	return (i);
+// 	num = num_cmd(data);
+// 	while (data.cmd != NULL)
+// 	{
+// 		i++;
+// 		data = find_heredoc(data);
+// 		data = check_in_out(data);
+// 		if (i != num && pipe(fd) < 0)
+// 		{
+// 			mini_perror("Error with pipe\n", 1, 0);
+// 			break ;
+// 		}
+// 		pid = fork();
+// 		if (pid < 0)
+// 			close_exit(fd);
+// 		else if (pid == 0)
+// 			child_process(data, fd, tmpfd, i);
+// 		data = parent_fd(data, fd, tmpfd);
+// 		data.cmd = data.cmd->next;
+// 	}
+// 	return (i);
+// }
+
+int    exec_fork(t_data data, int i, int pid, int num)
+{
+    int        fd[2];
+    int        infilepresent;
+
+    num = num_cmd(data);
+    while (data.cmd != NULL)
+    {
+        if (data.cmd->stdin_redir != 0)
+            infilepresent = 1;
+        else
+            infilepresent = 0;
+        i++;
+        data = find_heredoc(data);
+        data = check_in_out(data);
+        if (i != num && pipe(fd) < 0)
+        {
+            mini_perror("Error with pipe\n", 1, 0);
+            break ;
+        }
+        pid = fork();
+        if (pid < 0)
+            close_exit(fd);
+        else if (pid == 0)
+            child_process(data, fd);
+        data = parent_fd(data, fd, infilepresent);
+        data.cmd = data.cmd->next;
+    }
+    return (i);
 }
 
 void	parent_wait(t_data data, int i)
