@@ -113,16 +113,16 @@ void	run_cd(t_cmd *c, char ***envp, int flag)
 
 void	run_exit(t_data data)
 {
-	t_cmd	*s;
+	t_cmd	*cmd;
 	int		status;
 
-	s = data.cmd;
-	if (s->args == NULL)
+	cmd = data.cmd;
+	if (cmd->args == NULL)
 		exit(1);
-	if (s->args != NULL && s->args->next != NULL)
+	if (cmd->args != NULL && cmd->args->next != NULL)
 		return (mini_perror("exit: too many arguments\n", 2, 0));
-	if (s->args && s->args->s[0] < 48 && s->args->s[0] > 57)
+	if (cmd->args && cmd->args->s[0] < 48 && cmd->args->s[0] > 57)
 		exit(2);
-	status = ft_atoi(s->args->s);
+	status = ft_atoi(cmd->args->s);
 	exit(status);
 }
