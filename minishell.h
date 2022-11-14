@@ -86,6 +86,7 @@ int		find_end(char *arg, int i);
 int		ft_strcmp_n(char *s1, char *s2, int len);
 int		num_cmd(t_data data);
 int		iter_arg(char *arg, int i, int flag);
+int		check_special(char *s);
 
 size_t	sslen(char **ss);
 
@@ -99,7 +100,7 @@ void	run_pwd(t_data data);
 void	run_env(t_data data);
 void	run_exit(t_data data);
 void	run_cd(t_cmd *command, char ***envp, int flag);
-void	run_export(t_cmd *command, char ***envp);
+void	run_export(t_cmd *command, char ***envp, int flag);
 void	run_unset(t_cmd *command, char ***envp);
 void	exec_b(t_data data, char *s);
 void	check_cmd(t_data data, int tmpfd);

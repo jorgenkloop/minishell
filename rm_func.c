@@ -135,3 +135,22 @@ char	*rm_whitespace(char *s, char c, int k, int i)
 	free(s);
 	return (new);
 }
+
+int	check_special(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (s[0] < 65 || (s[0] > 90 && s[0] < 97) || s[0] > 122)
+		return (-3);
+	while (s[i] != '=' || s[i] != '\0')
+	{
+		if (s[i] == '=')
+			break ;
+		if (s[i] < 48 || (s[i] > 57 && s[i] < 65)
+			|| (s[i] > 90 && s[i] < 97) || s[i] > 122)
+			return (-3);
+		i++;
+	}
+	return (0);
+}

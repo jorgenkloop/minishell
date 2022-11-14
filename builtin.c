@@ -144,7 +144,7 @@ t_data	builtin(t_data data)
 		run_cd(data.cmd, &(data.envp), 0);
 	else if (c != -1 && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)))
-		run_export(data.cmd, &(data.envp));
+		run_export(data.cmd, &(data.envp), 0);
 	else if (c != -1 && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)))
 		run_unset(data.cmd, &(data.envp));

@@ -142,7 +142,6 @@ char	**exp_env(char **arg, char **env, int len)
 	while (++i < len && arg[i])
 	{
 		pos = check_dollar(arg[i], pos, 0);
-		printf("%s %d and %d\n", arg[i], pos[0], pos[1]);
 		if (pos[1] - pos[0] > 1 && pos[0] >= 0 && pos[1] > 0)
 		{
 			pos2[0] = pos[0];

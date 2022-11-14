@@ -44,7 +44,6 @@ void	run_env(t_data data)
 
 	if (data.cmd->args != NULL && data.cmd->args->s[0] != '\0')
 	{
-		printf("-%s-\n", data.cmd->args->s);
 		mini_perror("Please run without options or arguments\n", 1, 1);
 		return ;
 	}
@@ -74,7 +73,7 @@ char	**edit_envp(char **envp, char *var, char *str)
 	}
 	while (envp[++i] != NULL)
 	{
-		if (!(ft_strcmp_n(envp[i], var, len)))
+		if (!(ft_strncmp(envp[i], var, len)))
 		{
 			free(envp[i]);
 			envp[i] = ft_strdup(new);

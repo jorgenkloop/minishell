@@ -108,7 +108,7 @@ void	run_unset(t_cmd *command, char ***envp)
 	g_status = 0;
 }
 
-void	run_export(t_cmd *command, char ***envp)
+void	run_export(t_cmd *command, char ***envp, int flag)
 {
 	t_list	*arg;
 	int		check;
@@ -116,6 +116,13 @@ void	run_export(t_cmd *command, char ***envp)
 	arg = command->args;
 	while (arg != NULL)
 	{
+		if (check_special(arg->s) == -3)
+		{
+			mini_perror("Not a valid identifier\n", 1, 0);
+			flag = 1;
+			arg = arg->next;
+			continue ;
+		}
 		check = check_env(*envp, arg->s, 0, 0);
 		if (check == -1)
 			continue ;
@@ -125,5 +132,6 @@ void	run_export(t_cmd *command, char ***envp)
 			*envp = resize_insert(arg->s, *envp);
 		arg = arg->next;
 	}
-	g_status = 0;
+	if (flag == 0)
+		g_status = 0;
 }

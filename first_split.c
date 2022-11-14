@@ -123,9 +123,6 @@ char	**lexer(char **envp, char *s)
 	input = cmd_split(s, ctr[0], 0, 0);
 	free(s);
 	input = exp_env(input, envp, ctr[0]);
-	int x = -1;
-	while (input[++x] != NULL)
-		printf("-%s-\n", input[x]);
 	ctr[1] = find_ctr(input);
 	if (ctr[1] > 0)
 		input = split_char(input, (ctr[1] * 2) + ctr[0], -1, 0);
