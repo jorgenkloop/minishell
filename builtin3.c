@@ -108,12 +108,13 @@ void	run_unset(t_cmd *command, char ***envp)
 	g_status = 0;
 }
 
-void	run_export(t_cmd *command, char ***envp, int flag)
+void	run_export(t_cmd *command, char ***envp, int flag, int check)
 {
 	t_list	*arg;
-	int		check;
 
 	arg = command->args;
+	if (arg == NULL)
+		print_export(*envp);
 	while (arg != NULL)
 	{
 		if (check_special(arg->s) == -3)

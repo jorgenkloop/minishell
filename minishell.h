@@ -100,7 +100,7 @@ void	run_pwd(t_data data);
 void	run_env(t_data data);
 void	run_exit(t_data data, int i);
 void	run_cd(t_cmd *command, char ***envp, int flag);
-void	run_export(t_cmd *command, char ***envp, int flag);
+void	run_export(t_cmd *command, char ***envp, int flag, int check);
 void	run_unset(t_cmd *command, char ***envp);
 void	exec_b(t_data data, char *s);
 void	check_cmd(t_data data, int tmpfd);
@@ -113,5 +113,6 @@ int		exec_fork(t_data data, int i, int pid, int num);
 void	close_exit(int fd[2]);
 void	parent_wait(t_data data, int i);
 void	ft_freelist(t_list *list);
+void	print_export(char **envp);
 
 #endif

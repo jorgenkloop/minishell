@@ -13,38 +13,6 @@
 #include "minishell.h"
 #include "libft/libft.h"
 
-//removed quotes from the **arg
-//i and j must be -1, k must be 0
-//called by lexer
-// char	**rm_quote(char **arg, int i, int j, int k)
-// {
-// 	char	*new;
-// 	char	c;
-
-// 	while (arg[++i] != NULL)
-// 	{
-// 		k = 0;
-// 		j = -1;
-// 		if (arg[i][0] != '\'' && arg[i][0] != '\"')
-// 			continue ;
-// 		c = arg[i][0];
-// 		new = (char *)malloc(sizeof(char) * (ft_strlen(arg[i]) - 1));
-// 		while (arg[i][++j] != '\0')
-// 		{
-// 			if (arg[i][j] == c)
-// 				continue ;
-// 			new[k] = arg[i][j];
-// 			k++;
-// 		}
-// 		new[k] = '\0';
-// 		free(arg[i]);
-// 		arg[i] = ft_strdup(new);
-// 		free(new);
-// 		new = NULL;
-// 	}
-// 	return (arg);
-// }
-
 static int	check_quote(char *input)
 {
 	char	c;
@@ -134,23 +102,4 @@ char	*rm_whitespace(char *s, char c, int k, int i)
 	new[k] = '\0';
 	free(s);
 	return (new);
-}
-
-int	check_special(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (s[0] < 65 || (s[0] > 90 && s[0] < 97) || s[0] > 122)
-		return (-3);
-	while (s[i] != '=' || s[i] != '\0')
-	{
-		if (s[i] == '=')
-			break ;
-		if (s[i] < 48 || (s[i] > 57 && s[i] < 65)
-			|| (s[i] > 90 && s[i] < 97) || s[i] > 122)
-			return (-3);
-		i++;
-	}
-	return (0);
 }
