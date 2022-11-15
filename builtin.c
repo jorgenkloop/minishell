@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 #include "libft/libft.h"
-//#include "libft/get_next_line.h"
 
 void	run_pwd(t_data data)
 {
