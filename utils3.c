@@ -26,8 +26,7 @@ static void	stdout_file(t_data data)
 	char	*s;
 	int		i;
 
-	if (data.cmd->stout_redir != NULL)
-		s = data.cmd->stout_redir->s;
+	s = data.cmd->stout_redir->s;
 	i = 0;
 	while (s[i] == '>' || s[i] == ' ')
 		i++;
