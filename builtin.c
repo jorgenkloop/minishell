@@ -103,51 +103,22 @@ int	check_redirect(t_data data)
 	return (0);
 }
 
-// t_data	builtin(t_data data)
-// {
-// 	t_cmd	*temp;
-// 	int		check;
-
-// 	check = check_redirect(data);
-// 	while (data.cmd && check != -1)
-// 	{
-// 		if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "cd", 2)))
-// 			run_cd(data.cmd, &(data.envp), 0);
-// 		else if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)))
-// 			run_export(data.cmd, &(data.envp));
-// 		else if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)))
-// 			run_unset(data.cmd, &(data.envp));
-// 		else if (data.cmd->next == NULL
-// 			&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)))
-// 			run_exit(data);
-// 		else
-// 			check_cmd(data);
-// 		temp = data.cmd;
-// 		data.cmd = data.cmd->next;
-// 		freecmd(temp);
-// 	}
-// 	return (data);
-// }
-
 t_data	builtin(t_data data)
 {
 	int		c;
 	int		i;
 
 	c = check_redirect(data);
-	if (c != -1 && data.cmd->next == NULL
+	if (c != -1 && data.cmd->exe && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "cd", 2)))
 		run_cd(data.cmd, &(data.envp), 0);
-	else if (c != -1 && data.cmd->next == NULL
+	else if (c != -1 && data.cmd->exe && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "export", 6)))
 		run_export(data.cmd, &(data.envp), 0, 0);
-	else if (c != -1 && data.cmd->next == NULL
+	else if (c != -1 && data.cmd->exe && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "unset", 5)))
 		run_unset(data.cmd, &(data.envp));
-	else if (c != -1 && data.cmd->next == NULL
+	else if (c != -1 && data.cmd->exe && data.cmd->next == NULL
 		&& !(ft_strcmp_n(data.cmd->exe->s, "exit", 4)))
 		run_exit(data, -1);
 	else if (c != -1)

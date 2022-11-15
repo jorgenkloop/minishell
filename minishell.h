@@ -104,7 +104,7 @@ void	run_export(t_cmd *command, char ***envp, int flag, int check);
 void	run_unset(t_cmd *command, char ***envp);
 void	exec_b(t_data data, char *s);
 void	check_cmd(t_data data, int tmpfd);
-void	exec_loop(t_data data);
+void	exec_loop(t_data data, int index, char *i);
 void	printss(char **ss);
 void	child_process(t_data data, int fd[2]);
 void	mini_perror(char *err_str, int err_code, int flag);

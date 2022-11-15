@@ -88,7 +88,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (input == NULL)
 			break ;
 		data.cmd = parse(input);
-		//printf("data %s\n", data.cmd->args->s);
+		//printf("data %s\n", data.cmd->exe->s);
 		data = builtin(data);
 		freess(input);
 		input = NULL;

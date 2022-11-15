@@ -47,6 +47,8 @@ int	is_builtin(t_data data)
 	t_cmd	*cmd;
 
 	cmd = data.cmd;
+	if (!cmd->exe)
+		return (0);
 	if (!(ft_strcmp_n(cmd->exe->s, "echo", 4)))
 		return (1);
 	else if (!(ft_strcmp_n(cmd->exe->s, "cd", 2)))
@@ -113,7 +115,7 @@ static void	child_redirect(t_data data, int fd[2])
 static void	child_builtin(t_data data)
 {
 	if (is_builtin(data) == 0)
-		exec_loop(data);
+		exec_loop(data, 0, NULL);
 	else if (is_builtin(data) == 1
 		&& !(ft_strcmp_n(data.cmd->exe->s, "echo", 4)))
 		g_status = run_echo(data, data.cmd->outfile, 0, -1);

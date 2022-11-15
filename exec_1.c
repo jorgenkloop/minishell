@@ -23,7 +23,7 @@ char	**exec_arg(t_data data)
 		return (data.cmd->full);
 	while (data.cmd->full[i] != NULL)
 	{
-		if (data.cmd->full[i][0] == '>' || data.cmd->full[i][0] == '<')
+		if ((data.cmd->full[i][0] == '>' || data.cmd->full[i][0] == '<'))
 		{
 			while (data.cmd->full[i] != NULL)
 			{
@@ -71,15 +71,13 @@ char	*iter_dir(t_data data, int index, char *s)
 
 //the main execution function. loops through each dir 
 //until execve executes using the correct dir
-void	exec_loop(t_data data)
+void	exec_loop(t_data data, int index, char *i)
 {
 	char	*dir;
 	char	**s;
-	char	*i;
-	int		index;
 
-	index = 0;
-	i = NULL;
+	if (!data.cmd->exe)
+		return ;
 	if (data.cmd->stout_redir != NULL)
 	{
 		if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
@@ -91,6 +89,8 @@ void	exec_loop(t_data data)
 	dir = iter_dir(data, index, i);
 	while (dir)
 	{
+		if (s[0] == NULL)
+			s[0] = dir;
 		execve(dir, s, data.envp);
 		free(dir);
 		dir = NULL;
