@@ -85,7 +85,7 @@ t_data	find_heredoc(t_data data)
 		if (s[0] == '<' && s[1] == '<')
 		{
 			if (data.cmd->stdin_redir->next)
-				data.cmd->infile = get_here_doc(s + 2);
+				get_here_doc(s + 2);
 			else if (data.cmd->next)
 				data.cmd->next->infile = get_here_doc(s + 2);
 		}

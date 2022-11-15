@@ -144,7 +144,6 @@ static void	child_builtin(t_data data)
 
 void	child_process(t_data data, int fd[2])
 {
-	//data = child_cmd(data, i);
 	child_redirect(data, fd);
 	close(fd[0]);
 	child_builtin(data);

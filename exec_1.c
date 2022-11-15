@@ -23,7 +23,7 @@ char	**exec_arg(t_data data)
 		return (data.cmd->full);
 	while (data.cmd->full[i] != NULL)
 	{
-		if ((data.cmd->full[i][0] == '>' || data.cmd->full[i][0] == '<'))
+		if (data.cmd->full[i][0] == '>' || data.cmd->full[i][0] == '<')
 		{
 			while (data.cmd->full[i] != NULL)
 			{
@@ -78,12 +78,12 @@ void	exec_loop(t_data data, int index, char *i)
 
 	if (!data.cmd->exe)
 		return ;
-	if (data.cmd->stout_redir != NULL)
-	{
-		if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
-			return ;
-		close(data.cmd->outfile);
-	}
+	// if (data.cmd->stout_redir != NULL)
+	// {
+	// 	if (dup2(data.cmd->outfile, STDOUT_FILENO) < 0)
+	// 		return ;
+	// 	close(data.cmd->outfile);
+	// }
 	s = exec_arg(data);
 	execve(data.cmd->exe->s, s, data.envp);
 	dir = iter_dir(data, index, i);
@@ -138,7 +138,7 @@ int    exec_fork(t_data data, int i, int pid, int num)
     num = num_cmd(data);
     while (data.cmd != NULL)
     {
-        if (data.cmd->stdin_redir != 0)
+        if (data.cmd->stdin_redir)
             infilepresent = 1;
         else
             infilepresent = 0;
