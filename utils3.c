@@ -13,19 +13,6 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-int	num_cmd(t_data data)
-{
-	int		i;
-
-	i = 0;
-	while (data.cmd != NULL)
-	{
-		data.cmd = data.cmd->next;
-		i++;
-	}
-	return (i);
-}
-
 void	close_exit(int fd[2])
 {
 	close(fd[0]);
@@ -77,12 +64,13 @@ t_data	parent_fd(t_data data, int fd[2], int infilepresent)
 
 	if (infilepresent)
 	{
-        waitpid(-1, &status, 0);
+		waitpid(-1, &status, 0);
 		if (status >= 256 || status == 0)
 			g_status = status / 256;
 	}
 	close(fd[1]);
-	if (data.cmd && data.cmd->next != NULL && data.cmd->next->stdin_redir == NULL)
+	if (data.cmd && data.cmd->next != NULL
+		&& data.cmd->next->stdin_redir == NULL)
 		data.cmd->next->infile = fd[0];
 	else
 		close(fd[0]);
