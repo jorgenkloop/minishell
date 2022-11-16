@@ -1,6 +1,6 @@
 NAME = minishell
 FLAGS_TEST = -lreadline -g -fsanitize=address
-FLAGS = -Wextra -Wall -Werror -lreadline -g -fsanitize=leak
+FLAGS = -Wextra -Wall -Werror -lreadline -g -fsanitize=address
 
 all: $(NAME)
 
