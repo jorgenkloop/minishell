@@ -91,7 +91,6 @@ int		check_special(char *s);
 size_t	sslen(char **ss);
 
 void	freedata(t_data data);
-void	freecmd(t_cmd *cmd);
 void	freess(char **ss);
 void	getexe(t_cmd *cmd);
 void	getinredir(t_cmd *cmd);

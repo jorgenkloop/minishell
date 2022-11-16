@@ -50,6 +50,12 @@ static char	*readline_check(char *s, int *flag)
 	if (len != 0 && s[len - 1] == '|')
 	{
 		s2 = readline("> ");
+		if (!s2)
+		{
+			free(s2);
+			free(s);
+			return (NULL);
+		}
 		s2 = rm_whitespace(s2, 0, 0, -1);
 		new = ft_strjoin(s, s2);
 		free(s2);
@@ -71,6 +77,12 @@ char	*get_readline(void)
 	s = readline("input > ");
 	if (!s)
 		exit(1);
+	if (s && s[0] == '|')
+	{
+		mini_perror("syntax err near unex token `|'\n", 2, 0);
+		free(s);
+		s = get_readline();
+	}
 	s = rm_whitespace(s, 0, 0, -1);
 	while (1)
 	{
@@ -80,8 +92,6 @@ char	*get_readline(void)
 	}
 	if (s)
 		add_history(s);
-	else
-		exit(1);
 	return (s);
 }
 

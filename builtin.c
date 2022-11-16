@@ -87,7 +87,7 @@ int	check_redirect(t_data data)
 
 	i = -1;
 	while (data.cmd->full[++i] != NULL)
-	{	
+	{
 		if (data.cmd->full[i][0] == '<' || data.cmd->full[i][0] == '>')
 		{
 			c = data.cmd->full[i][0];

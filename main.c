@@ -39,19 +39,6 @@ void	ft_freelist(t_list *list)
 	}
 }
 
-void	freecmd(t_cmd *cmd)
-{
-	t_cmd	*temp;
-
-	temp = cmd;
-	freess(temp->full);
-	ft_freelist(temp->exe);
-	ft_freelist(temp->args);
-	ft_freelist(temp->stdin_redir);
-	ft_freelist(temp->stout_redir);
-	free(temp);
-}
-
 void	freedata(t_data data)
 {
 	t_cmd	*temp;
@@ -84,11 +71,10 @@ int	main(int argc, char *argv[], char *envp[])
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, siginthandler);
 		s = get_readline();
+		if (s == NULL)
+			continue ;
 		input = lexer(data.envp, s);
-		if (input == NULL)
-			break ;
 		data.cmd = parse(input);
-		//printf("data %s\n", data.cmd->exe->s);
 		data = builtin(data);
 		freess(input);
 		input = NULL;
