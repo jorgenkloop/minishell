@@ -94,7 +94,7 @@ void	exec_loop(t_data data, int index, char *i)
 		g_status = 127;
 }
 
-int    exec_fork(t_data data, int i, int pid, int infilepresent)
+int	exec_fork(t_data data, int i, int pid, int infilepresent)
 {
 	int	fd[2];
 
