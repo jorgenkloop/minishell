@@ -135,7 +135,6 @@ void	run_exit(t_data data, int i)
 			if (cmd->args->s[i] < 48 || cmd->args->s[i] > 57)
 				mini_perror("exit: numeric arg required\n", 2, 1);
 	}
-		mini_perror("exit: numeric arg required\n", 2, 1);
 	status = ft_atoi(cmd->args->s);
 	exit(status);
 }

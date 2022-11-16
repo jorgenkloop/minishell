@@ -84,7 +84,6 @@ int		is_builtin(t_data data);
 int		get_here_doc(char *delim);
 int		find_end(char *arg, int i);
 int		ft_strcmp_n(char *s1, char *s2, int len);
-int		num_cmd(t_data data);
 int		iter_arg(char *arg, int i, int flag);
 int		check_special(char *s);
 
@@ -108,7 +107,7 @@ void	printss(char **ss);
 void	child_process(t_data data, int fd[2]);
 void	mini_perror(char *err_str, int err_code, int flag);
 void	siginthandler(int sig);
-int		exec_fork(t_data data, int i, int pid, int num);
+int		exec_fork(t_data data, int i, int pid, int infilepresent);
 void	close_exit(int fd[2]);
 void	parent_wait(t_data data, int i);
 void	ft_freelist(t_list *list);
