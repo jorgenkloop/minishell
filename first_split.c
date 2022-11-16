@@ -48,49 +48,6 @@ int	iter_arg(char *arg, int i, int flag)
 		return (i + 1);
 }
 
-//splits argv into an array called input
-// static char	**cmd_split(char *arg, int len, int j, int k)
-// {
-// 	char	**cmd;
-// 	int		i;
-
-// 	i = -1;
-// 	cmd = (char **)ft_calloc(len + 1, sizeof(char *));
-// 	while (arg[++i] != '\0')
-// 	{
-// 		if (arg[i] == ' ')
-// 			cmd[k++] = ex_str(arg, i - 1, &j, 1);
-// 		else if (arg[i] == '\'' || arg[i] == '\"')
-// 		{
-// 			if (i != 0 && arg[i - 1] && arg[i - 1] != ' ')
-// 				cmd[k++] = ex_str(arg, i - 1, &j, 0);
-// 			i = iter_arg(arg, i, arg[i]);
-// 			cmd[k++] = ex_str(arg, i, &j, 0);
-// 			if (arg[i + 1] == ' ')
-// 				i++;
-// 			j = i + 1;
-// 		}
-// 	}
-// 	cmd[k] = ex_str(arg, i - 1, &j, 0);
-// 	return (cmd);
-// }
-
-// static char	**cmd_split(char *arg, int len, int j, int k)
-// {
-// 	char	**cmd;
-// 	int		i;
-
-// 	i = -1;
-// 	cmd = (char **)ft_calloc(len + 1, sizeof(char *));
-// 	while (arg[++i] != '\0')
-// 	{
-// 		if (arg[i] == ' ')
-// 			cmd[k++] = ex_str(arg, i - 1, &j, 1);
-// 	}
-// 	cmd[k] = ex_str(arg, i - 1, &j, 0);
-// 	return (cmd);
-// }
-
 static char	**cmd_split(char *arg, int len, int j, int k)
 {
 	char	**cmd;
