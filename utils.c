@@ -37,7 +37,7 @@ int	find_len(char *arg, char s)
 			if (i != 0 && arg[i + 1] && arg[i + 1] != ' ')
 				len++;
 		}
-		else if (arg[i] == s)
+		else if (arg[i] == s || arg[i] == '|')
 			len++;
 	}
 	return (len);
